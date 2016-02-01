@@ -1,0 +1,254 @@
+/* RESET */
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol, ul {
+  list-style: none;
+}
+blockquote, q {
+  quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* TEST PURPOSES CSS */
+.post-img-container{
+}
+.post-video-container{
+  display: none;
+}
+.post-link-container{
+  display: none;
+}
+.post-text-container{
+}
+
+.post-text-title{
+}
+
+/* CONFIGURATION CSS */
+html{
+  font-family: 'Open Sans';
+  font-size: 14px;
+  position: relative;
+  top: 78px;
+}
+
+*, *:after, *:before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+/* OBJECT ORIENTED CSS */
+.blue{
+  color: #4676B6;
+}
+/* MAIN CSS */
+
+#header{
+  background-color: white;
+  height: 78px;
+  line-height: 78px;
+  padding:     0 15px;
+  position: fixed;
+  width: 100%;
+
+  -webkit-box-shadow: 0 2px 3px 0px rgba(157, 157, 157, 0.16);;
+     -moz-box-shadow: 0 2px 3px 0px rgba(157, 157, 157, 0.16);;
+          box-shadow: 0 2px 3px 0px rgba(157, 157, 157, 0.16);;
+  }
+  #logo{
+    float: left;
+    }
+
+  #app-button{
+    float: right;
+    }
+
+
+
+
+
+.posts-container{
+
+  }
+
+  .post{
+
+    }
+
+    .post-header:before, 
+    .post-header:after {
+      content:"";
+      display: table ;
+      clear:both;
+      }
+    .post-header{
+        padding: 15px 15px;
+      }
+
+      .post-user-img-container{
+        float: left;
+        max-height: 28px;
+        max-width:  28px;
+        }
+
+        .post-user-img{
+          border-radius: 50%;
+          width:28px;
+      }
+
+      .post-credentials{
+          float: left;
+          line-height: 14px;
+          padding-left: 10px;
+        }
+
+        .post-username{
+          font-size: 11px;
+          font-weight: bold;
+        }
+        .post-hashtag{
+
+      }
+
+      .post-share-container{
+          float: right;
+        }
+
+        .post-share-button{
+          width: 28px;
+    }
+
+    .post-content{
+
+      }
+
+      .post-img-container{
+
+        }
+
+        .post-img{
+          width: 100%;
+        }
+
+      .post-video-container{
+
+        }
+
+        .post-video{
+          height: 220px;
+          width: 100%;
+      }
+
+      .post-link-container{
+        color: white;
+        height: 150px;
+        overflow: hidden;
+        padding: 15px;
+        position: relative;
+        }
+
+        .post-link-img{
+          background-image: url("link_image.jpg");
+            background-size: cover;
+            background-position: center;
+          height: 100%;
+          position: absolute;
+            left: 0;
+            top: 0;
+          width: 100%;
+          z-index: -2;
+        }
+
+        .post-link-overlay{
+          background-color: rgba(0, 0, 0, 0.7);
+          height: 100%;
+          position: absolute;
+            left: 0;
+            top: 0;
+          width: 100%;
+          z-index: -1;
+        }
+
+        .post-link-title{
+          font-size: 22px;
+          font-weight: bold;
+        }
+
+        .post-link-description{
+          display: -webkit-box;
+          font-size: 12px;
+          line-height: 20px;
+          overflow: hidden;
+          padding-top: 15px;
+          width: 90%;
+
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 3;
+        }
+
+        .post-link-click{
+          bottom: 15px;
+          font-size: 15px;
+          font-weight: bold;
+          position: absolute;
+      }
+
+      .post-text-container{
+        padding: 0 15px;
+        }
+
+        .post-text-title{
+          font-size: 25px;
+          padding-top: 15px;
+        }
+
+        .post-text-body{
+          line-height: 2;
+          padding-top: 15px;
+        }
+
+
+    
+
+
+
+
+.post-related{
+  font-weight: bold;
+  padding: 15px 15px;
+}
