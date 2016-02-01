@@ -63,6 +63,7 @@ table {
 html{
   font-family: 'Open Sans';
   font-size: 14px;
+  min-width: 250px;
   position: relative;
   top: 78px;
 }
@@ -75,6 +76,12 @@ html{
 /* OBJECT ORIENTED CSS */
 .blue{
   color: #4676B6;
+}
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 /* MAIN CSS */
 
@@ -115,9 +122,10 @@ html{
       content:"";
       display: table ;
       clear:both;
-      }
+    }
     .post-header{
-        padding: 15px 15px;
+      max-height: 60px;
+      padding: 15px 15px;
       }
 
       .post-user-img-container{
@@ -128,13 +136,16 @@ html{
 
         .post-user-img{
           border-radius: 50%;
+          height: 28px;
           width:28px;
       }
 
       .post-credentials{
           float: left;
           line-height: 14px;
+          max-height: 28px;
           padding-left: 10px;
+          width: 70%;
         }
 
         .post-username{
@@ -142,7 +153,7 @@ html{
           font-weight: bold;
         }
         .post-hashtag{
-
+          height: 16px;
       }
 
       .post-share-container{
@@ -150,6 +161,7 @@ html{
         }
 
         .post-share-button{
+          height: 28px;
           width: 28px;
     }
 
