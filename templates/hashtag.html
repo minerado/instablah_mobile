@@ -2,12 +2,15 @@
 
 
 {% block main %}
+
     {% for post in posts.models %}
 
         {% if post.cover %}
             {% set image = post.cover %}
-        {% else %}
+        {% elif post.payload.image %}
             {% set image = post.payload.image.medium %}
+        {% else %}
+            {% set image = None %}
         {% endif %}
 
         <div class="posts-container">
