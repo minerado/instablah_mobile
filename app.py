@@ -29,10 +29,6 @@ def show_post(hashtag_slug, slug, post_id):
     return render_template('post.html', post=json_response)
 
 
-@app.route("/")
-def hello():
-    return "Hello World!"
-
 if __name__ == "__main__":
     app.debug = True
-    app.run()
+    app.run(host='0.0.0.0')
