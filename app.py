@@ -7,7 +7,7 @@ from pprint import pprint
 # Setup
 app = Flask(__name__)
 ENDPOINT = "http://www.instablah.com.br/api/v1"
-requests_cache.install_cache('demo_cache')
+requests_cache.install_cache('instablah_api', expire_after=300)
 
 
 @app.route("/<hashtag_slug>")
