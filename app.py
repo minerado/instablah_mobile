@@ -2,7 +2,7 @@ import requests
 import requests_cache
 
 from flask import Flask, render_template
-from pprint import pprint
+
 
 # Setup
 app = Flask(__name__)
