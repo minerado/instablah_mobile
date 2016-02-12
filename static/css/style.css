@@ -242,6 +242,7 @@ html{
 
       .post-text-container{
         padding: 0 15px;
+        word-break: break-word;
         }
 
         .post-text-title{
