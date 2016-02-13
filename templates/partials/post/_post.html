@@ -1,0 +1,38 @@
+<div class="post">
+    <div class="post-content">
+        <div class="post-header">
+            <div class="post-user-img-container">
+                <img class="post-user-img" src="{{ post.persona.image.small }}">
+            </div>
+            <div class="post-credentials">
+                <div class="post-username blue truncate">{{ post.persona.name }}</div>
+                <div class="post-hashtag truncate">#{{ hashtag.name }}</div>
+            </div>
+            <div class="post-share-container">
+                <img class="post-share-button" src="/static/img/whats.png">
+            </div>
+        </div>
+
+        {% block post_content %}
+        {% endblock %}
+
+        {% if post.title or post.text %}
+            <div class="post-text-container">
+                {% if post.title %}
+                    <div class="post-text-title">{{ post.title }}</div>
+                {% endif %}
+
+                {% if post.text  %}
+                    <div class="post-text-body">{{ post.text | urlize }}</div>  
+                {% endif %}
+            </div>
+        {% endif %}
+
+    </div>
+
+    <div class="post-related blue">
+        {% for related in post.relateds %}
+            <span>#{{ related.name }}</span>
+        {% endfor %}
+    </div>
+</div>

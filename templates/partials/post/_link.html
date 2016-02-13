@@ -1,0 +1,13 @@
+{% extends "partials/post/_post.html" %}
+
+{% block post_content %}
+    <a href="{{ feature.url }}" class="post-link-anchor" target="_blank">
+        <div class="post-link-container">
+            <div class="post-link-img" style="background-image: url('{{ feature.image.medium }}')"></div>
+            <div class="post-link-overlay"></div>
+            <div class="post-link-title">{{ feature.title }}</div>
+            <div class="post-link-description">{{ feature.description }}</div>
+            <div class="post-link-click">(Clique para ver link...)</div>
+        </div>
+    </a>
+{% endblock %}

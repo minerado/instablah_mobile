@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block main %}
-    
+
+<div class="posts-container">
     {% for post in posts.models %}
 
         {% set feature = post.payload %}
@@ -9,7 +10,7 @@
         {% if not feature and not richcontent %}
             {% set post_type = 'text' %}
         {% elif not feature and richcontent %}
-            {% set post_type = 'long_post' %}
+            {% set post_type = 'rich' %}
         {% elif not feature.is_image and not feature.is_video %}
             {% set post_type = 'link' %}
         {% elif feature.is_image %}
@@ -19,33 +20,9 @@
         {% else %}
             {% set post_type = 'impossible' %}
         {% endif %}
+  
+        {% include "partials/post/_%s.html" % post_type %}
 
-        {% if not post.richcontent %}
-        <div class="posts-container">
-            <!-- Test reasons -->
-            <div class="test-code">
-              
-            </div>
-            <!-- /Test reasons -->
-            <div class="post">
-              <div class="post-content">
-                {% if post_type == "image" %}
-                    {% include "/partials/_post_image.html" %}
-                {% elif post_type == "video" %}
-                    {% include "/partials/_post_video.html" %}
-                {% elif post_type == "link" %}
-                    {% include "/partials/_post_link.html" %}
-                {% endif %}
-              </div>
-              
-              <div class="post-related blue">
-                {% for related in post.relateds %}
-                    <span>#{{ related.name }}</span>
-                {% endfor %}
-              </div>
-              
-            </div>
-        </div>
-        {% endif %}
     {% endfor %}
+</div>
 {% endblock %}
