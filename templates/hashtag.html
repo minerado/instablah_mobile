@@ -1,7 +1,7 @@
 {% extends "base.html"%}
-
-
 {% block main %}
+    
+
 
     {% for post in posts.models %}
 
@@ -13,49 +13,54 @@
             {% set image = None %}
         {% endif %}
 
+        {% set feature = post.payload %}
+        {% set richcontent = post.richcontent %}
+
+        {% if not feature and not richcontent %}
+            {% set post_type = 'text' %}
+        {% elif not feature and richcontent %}
+            {% set post_type = 'long_post' %}
+        {% elif not feature.is_image and not feature.is_video %}
+            {% set post_type = 'link' %}
+        {% elif feature.is_image %}
+            {% set post_type = 'image' %}
+        {% elif feature.is_video %}
+            {% set post_type = 'video' %}
+        {% else %}
+            {% set post_type = 'impossible' %}
+        {% endif %}
+
+        {% if not post.richcontent %}
         <div class="posts-container">
+            <!-- Test reasons -->
+            <div class="test-code">
+              
+            </div>
+            <!-- /Test reasons -->
             <div class="post">
-              <div class="post-header">
-                <div class="post-user-img-container">
-                  <img class="post-user-img" src="{{ post.persona.image.small }}">
-                </div>
-                <div class="post-credentials">
-                  <div class="post-username blue truncate">{{ post.persona.name }}</div>
-                  <div class="post-hashtag truncate">{% for related in post.relateds %}{{ related.name }}{% endfor %}</div>
-                </div>
-                <div class="post-share-container">
-                  <img class="post-share-button" src="/static/img/whats.png">
-                </div>
-              </div>
+              {% include "/partials/post_header.html" %}
               <div class="post-content">
-                <div class="post-img-container">
-                  <a href="/{{ hashtag.slug }}/{{ post.slug }}/{{ post.id}}/richcontent"><img class="post-img" src="{{ image }}"></a>
-                </div>
-                <div class="post-video-container">
-                  {# <iframe class="post-video" src="https://www.youtube.com/embed/iX-QaNzd-0Y" frameborder="0" allowfullscreen></iframe> #}
-                </div>
-                <div class="post-link-container">
-                  <div class="post-link-img"></div>
-                  <div class="post-link-overlay"></div>
-                  <div class="post-link-title">Lorem Ipsum</div>
-                  <div class="post-link-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras massa tortor, porta eu velit sed, tempus ultrices magna. Curabitur quis lacinia risus. Quisque nisl neque, molestie vel pharetra eu, bibendum sit amet risus. Cras ornare lobortis mi. Etiam libero metus, cursus ut semper at, dignissim ac ipsum. Proin vel rutrum ipsum. Integer maximus lorem nisl, sed mattis lectus tempus eu. Etiam lobortis lectus ac augue vehicula porttitor. Vivamus sit amet dignissim justo. Nam placerat nisi ac purus posuere sollicitudin. Nulla ut ultrices magna, a tempor enim. Nam imperdiet sem suscipit auctor dapibus. Proin a facilisis ipsum.</div>
-                  <div class="post-link-click">(Clique para ver link...)</div>
-                </div>
-                <div class="post-text-container">
-                  <div class="post-text-title">{{ post.title }}</div>
-                  {% if post.richcontent  %}
-                    <div class="post-text-body">{{ post.text|truncate(600) }}</div>  
-                  {% else %}
-                      <div class="post-text-body">{{ post.text|urlize }}</div>
-                  {% endif %}
-                </div>
+                {% if post_type == "image" %}
+                    {% include "/partials/post_image.html" %}
+                {% elif post_type == "video" %}
+                    {% include "/partials/post_video.html" %}
+                {% elif post_type == "link" %}
+                    {% include "/partials/post_link.html" %}
+                {% endif %}
+                     
+                {% if post.title or post.text %}
+                    {% include "/partials/post_text.html" %}
+                {% endif %}
               </div>
+              
               <div class="post-related blue">
                 {% for related in post.relateds %}
                     <span>#{{ related.name }}</span>
                 {% endfor %}
               </div>
+              
             </div>
-        </div> 
+        </div>
+        {% endif %}
     {% endfor %}
 {% endblock %}
