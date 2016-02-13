@@ -5,14 +5,6 @@
 
     {% for post in posts.models %}
 
-        {% if post.cover %}
-            {% set image = post.cover %}
-        {% elif post.payload.image %}
-            {% set image = post.payload.image.medium %}
-        {% else %}
-            {% set image = None %}
-        {% endif %}
-
         {% set feature = post.payload %}
         {% set richcontent = post.richcontent %}
 
