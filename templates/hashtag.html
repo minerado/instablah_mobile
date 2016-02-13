@@ -1,8 +1,6 @@
-{% extends "base.html"%}
+{% extends "base.html" %}
 {% block main %}
     
-
-
     {% for post in posts.models %}
 
         {% set feature = post.payload %}
@@ -30,18 +28,13 @@
             </div>
             <!-- /Test reasons -->
             <div class="post">
-              {% include "/partials/post_header.html" %}
               <div class="post-content">
                 {% if post_type == "image" %}
-                    {% include "/partials/post_image.html" %}
+                    {% include "/partials/_post_image.html" %}
                 {% elif post_type == "video" %}
-                    {% include "/partials/post_video.html" %}
+                    {% include "/partials/_post_video.html" %}
                 {% elif post_type == "link" %}
-                    {% include "/partials/post_link.html" %}
-                {% endif %}
-                     
-                {% if post.title or post.text %}
-                    {% include "/partials/post_text.html" %}
+                    {% include "/partials/_post_link.html" %}
                 {% endif %}
               </div>
               
