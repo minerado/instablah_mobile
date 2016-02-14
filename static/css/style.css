@@ -91,6 +91,7 @@ html{
   padding:     0 15px;
   position: fixed;
   width: 100%;
+  z-index: 999;
 
   -webkit-box-shadow: 0 2px 3px 0px rgba(157, 157, 157, 0.16);
      -moz-box-shadow: 0 2px 3px 0px rgba(157, 157, 157, 0.16);
@@ -183,11 +184,17 @@ html{
         }
 
       .post-video-container{
-
+        height: 0;
+        padding-bottom: 56.25%; /* 16:9 */
+        padding-top: 25px;
+        position: relative;
         }
 
         .post-video{
-          height: 220px;
+          height: 100%;
+          position: absolute;
+            left: 0;
+            top: 0;
           width: 100%;
       }
 

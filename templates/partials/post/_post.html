@@ -16,7 +16,7 @@
         {% block post_content %}
         {% endblock %}
 
-        {% if post.title or post.text %}
+        {% if (post.title or post.text) and not post.richcontent %}
             <div class="post-text-container">
                 {% if post.title %}
                     <div class="post-text-title">{{ post.title }}</div>

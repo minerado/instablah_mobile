@@ -1,7 +1,7 @@
 {% extends "partials/post/_post.html" %}
 
 {% block post_content %}
-    <a href="teste" class="post-link-anchor" target="_blank">
+    <a href="{{hashtag.slug}}/{{post.slug}}/{{post.id}}/richcontent" class="post-link-anchor">
         <div class="post-link-container">
             <div class="post-link-img" style="background-image: url('{{ post.cover }}')"></div>
             <div class="post-link-overlay"></div>
