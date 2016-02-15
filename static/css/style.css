@@ -74,6 +74,20 @@ html{
   background-color: #4676B6 !important;
   color: white !important;
 }
+
+/* JQUERY Specific */
+.post-transition{
+  transition: transform .2s;
+}
+
+.held{
+  opacity: 0.95;
+  position: relative;
+    left: 0;
+    top: 0;
+  z-index:  9999 !important;
+}
+
 /* MAIN CSS */
 
 #header{
@@ -93,30 +107,41 @@ html{
       margin-right: 5px;
 }/* ##header */
 
-/* TESTING POST ANIMATION
+#hashtag-cover{
+  background-color:      white;
+    background-position: center;
+    background-size:     cover;
+    background-repeat:   no-repeat;
+  height:                200px;
+  margin-bottom:         15px;
+  position:              relative;
+  width:                 100%;
 
-*/
-.post-transition{
-  transition: transform .2s;
+  -web-kit-box-shadow: 0 3px 13px 0px rgb(122, 122, 122);
+      -moz-box-shadow: 0 3px 13px 0px rgb(122, 122, 122);
+           box-shadow: 0 3px 13px 0px rgb(122, 122, 122);
+  }
+  #hashtag-cover-overlay{
+    background-color: rgba(0, 0, 0, 0.64);
+    height:           100%;
+    position:         absolute;
+      left:           0;
+      top:            0;
+    width:            100%;
+  }
+  #hashtag-name-container{
+    height: 100%;
+    position: relative;
+    }
+    #hashtag-name{
+      color:         white;
+      font-size:     24px;
+      padding-right: 15px;
+      position:      absolute;
+        bottom:      30px;
+        left:        15px;
+      word-break:    break-word;
 }
-
-.scaled-down{
-  transform: scale(0.8);
-}
-
-.post-container{
-}
-
-.held{
-  opacity: 0.95;
-  position: relative;
-    left: 0;
-    top: 0;
-  z-index:  9999 !important;
-}
-/* TEST OVER */
-
-
 
 .posts-container{
   display: inline-block;
@@ -319,11 +344,15 @@ html{
       .related{
         border:           solid 2px #4676B6;
           border-radius:  4px;
-        box-shadow:       0px 0px 1px 0px #4676B6;
         display:          inline-block;
         margin:           10px 5px 0px;
         max-width:        280px;
         padding:          7px 6px;
+
+        -webkit-box-shadow: 0px 0px 1px 0px #4676B6;
+           -moz-box-shadow: 0px 0px 1px 0px #4676B6;
+                box-shadow: 0px 0px 1px 0px #4676B6;
+
   }/* #.post */
     
 
