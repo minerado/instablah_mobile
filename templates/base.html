@@ -4,6 +4,7 @@
   <title>Instablah</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <link rel="icon" type="img/ico" href="static/img/favicon.ico">
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans" />
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
   <script src="/static/js/amplitude.min.js"></script>
@@ -12,14 +13,8 @@
 
 <body>
 
-  <div id="header" style="background-image: url({{hashtag.image.medium}})">
-    <div id="header-overlay"></div>
-    <span id="logo"><img id="logo-img" src="/static/img/insta.png">Instablah</span>
-    <span id="header-hashtag">#{{hashtag.name}}</span>
-  </div>
-  <div id="feature-header" class="off-feature">
-    <span id="feature-slogan-drag">Arraste aqui para ver depois!</span>
-  </div>
+  {% block header %}
+  {% endblock %}
 
   {% block main %}
   {% endblock %}

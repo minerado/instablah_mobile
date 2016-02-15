@@ -1,40 +1,40 @@
 {% extends "base.html" %}
-{% block main %}
 
-<div class="posts-container">
-    {% for post in posts.models %}
-
-        {% set feature = post.payload %}
-        {% set richcontent = post.richcontent %}
-
-        {% if not feature and not richcontent %}
-            {% set post_type = 'text' %}
-        {% elif not feature and richcontent %}
-            {% set post_type = 'rich' %}
-        {% elif not feature.is_image and not feature.is_video %}
-            {% set post_type = 'link' %}
-        {% elif feature.is_image %}
-            {% set post_type = 'image' %}
-        {% elif feature.is_video %}
-            {% set post_type = 'video' %}
-        {% else %}
-            {% set post_type = 'impossible' %}
-        {% endif %}
-  
-        {% include "partials/post/_%s.html" % post_type %}
-
-    {% endfor %}
-</div>
+{% block header %}
+    <div id="header" style="background-image:{{ hashtag.image.medium }}">
+      <div id="header-overlay"></div>
+      <span id="logo"><img id="logo-img" src="/static/img/insta.png">Instablah</span>
+      <span id="header-hashtag">#{{hashtag.name}}</span>
+    </div>
+    <div id="feature-header">
+      <span id="feature-slogan-drag">Arraste aqui para ver depois!</span>
+      <span id="feature-slogan-drop">Agora solte... </span>
+    </div>
 {% endblock %}
 
-<script type="text/javascript">
-    /*$(document).ready(function(){
-        $(".post").on("click", ".post-share-container", function(){
-            var $post = $(this).parent().parent();
-            var article = $post.
-        });
-        $(".whatsapp").on("click", function(){
-            var article = 
-        });
-    });*/
-</script>
+{% block main %}
+    <div class="posts-container">
+        {% for post in posts.models %}
+
+            {% set feature = post.payload %}
+            {% set richcontent = post.richcontent %}
+
+            {% if not feature and not richcontent %}
+                {% set post_type = 'text' %}
+            {% elif not feature and richcontent %}
+                {% set post_type = 'rich' %}
+            {% elif not feature.is_image and not feature.is_video %}
+                {% set post_type = 'link' %}
+            {% elif feature.is_image %}
+                {% set post_type = 'image' %}
+            {% elif feature.is_video %}
+                {% set post_type = 'video' %}
+            {% else %}
+                {% set post_type = 'impossible' %}
+            {% endif %}
+      
+            {% include "partials/post/_%s.html" % post_type %}
+
+        {% endfor %}
+    </div>
+{% endblock %}
