@@ -62,9 +62,15 @@ def show_post_richcontent(hashtag_slug, post_slug, post_id):
 
 
 @app.errorhandler(404)
-def internal_server_error(error):
+def not_found(error):
     app.logger.error('Server Error: %s', (error))
     return render_template('400.html'), 400
+
+
+@app.errorhandler(500)
+def internal_error(error):
+    app.logger.error('Server Error: %s', (error))
+    return render_template('500.html'), 500
 
 
 if __name__ == "__main__":
