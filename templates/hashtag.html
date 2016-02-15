@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block header %}
-    <div id="header" style="background-image:{{ hashtag.image.medium }}">
+    <div id="header" style="background-image:url({{ hashtag.image.medium }})">
       <div id="header-overlay"></div>
       <span id="logo"><img id="logo-img" src="/static/img/insta.png">Instablah</span>
       <span id="header-hashtag">#{{hashtag.name}}</span>
