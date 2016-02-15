@@ -47,9 +47,17 @@ def show_hashtag(slug):
     return render_template('hashtag.html', hashtag=hashtag, posts=posts)
 
 
-@app.route("/<string:hashtag_slug>/<string:post_slug>/<int:post_id>/richcontent")
+@app.route("/<string:hashtag_slug>/<string:post_slug>/<int:post_id>")
 def show_post(hashtag_slug, post_slug, post_id):
     post = get_post_content(post_id)
+    return render_template('post.html', post=post)
+
+
+@app.route("/<string:hashtag_slug>/<string:post_slug>/<int:post_id>/richcontent")
+def show_post_richcontent(hashtag_slug, post_slug, post_id):
+    post = get_post_content(post_id)
+    if not post.get('richcontent'):
+        abort(404)
     return render_template('post.html', post=post)
 
 
