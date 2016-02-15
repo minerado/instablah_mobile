@@ -1,5 +1,5 @@
-<div class="post">
-    <div class="post-content">
+<div class="post-container">
+    <div class="post">
         <div class="post-header">
             <div class="post-user-img-container">
                 <img class="post-user-img" src="{{ post.persona.image.small }}">
@@ -12,27 +12,30 @@
                 <img class="post-share-button" src="/static/img/whats.png">
             </div>
         </div>
+        <div class="post-content">
 
-        {% block post_content %}
-        {% endblock %}
+            {% block post_content %}
+            {% endblock %}
 
-        {% if (post.title or post.text) and not post.richcontent %}
-            <div class="post-text-container">
-                {% if post.title %}
-                    <div class="post-text-title">{{ post.title }}</div>
-                {% endif %}
+            {% if (post.title or post.text) and not post.richcontent %}
+                <div class="post-text-container">
+                    {% if post.title %}
+                        <div class="post-text-title">{{ post.title }}</div>
+                    {% endif %}
 
-                {% if post.text  %}
-                    <div class="post-text-body">{{ post.text | urlize }}</div>  
-                {% endif %}
-            </div>
-        {% endif %}
+                    {% if post.text  %}
+                        <div class="post-text-body">{{ post.text | urlize }}</div>  
+                    {% endif %}
+                </div>
+            {% endif %}
 
-    </div>
+        </div>
 
-    <div class="related-container blue">
-        {% for related in post.relateds %}
-            <a href="/{{related.slug}}" class="related truncate">#{{ related.name }}</a>
-        {% endfor %}
-    </div>
+        <div class="related-container blue">
+            {% for related in post.relateds %}
+                <a href="/{{related.slug}}" class="related truncate">#{{ related.name }}</a>
+            {% endfor %}
+        </div>
+    </div>    
 </div>
+

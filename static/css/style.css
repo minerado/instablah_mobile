@@ -45,26 +45,13 @@ table {
   border-spacing: 0;
 }
 
-/* TEST PURPOSES CSS */
-.post-img-container{
-}
-.post-video-container{
-}
-.post-link-container{
-}
-.post-text-container{
-}
-
-.post-text-title{
-}
-
 /* CONFIGURATION CSS */
 html{
   font-family: 'Open Sans';
   font-size: 14px;
   min-width: 250px;
+  overflow-x: hidden;
   position: relative;
-  top: 78px;
 }
 
 *, *:after, *:before {
@@ -82,40 +69,69 @@ html{
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.pressed{
+  background-color: #4676B6 !important;
+  color: white !important;
+}
 /* MAIN CSS */
 
 #header{
   background-color: white;
-  height: 78px;
-  line-height: 78px;
-  padding:     0 15px;
-  position: fixed;
-  width: 100%;
-  z-index: 999;
-
-  -webkit-box-shadow: 0 2px 3px 0px rgba(157, 157, 157, 0.16);
-     -moz-box-shadow: 0 2px 3px 0px rgba(157, 157, 157, 0.16);
-          box-shadow: 0 2px 3px 0px rgba(157, 157, 157, 0.16);
+  height:           78px;
+  line-height:      78px;
+  padding:          0 15px;
+  width:            100%;
   }
   #logo{
     float: left;
     }
+    #logo-img{
+      height:       30px;
+      position:     relative;
+      top:          7px;
+      margin-right: 5px;
+}/* ##header */
 
-  #app-button{
-    float: right;
-    }
+/* TESTING POST ANIMATION
 
+*/
+.post-transition{
+  transition: transform .2s;
+}
 
+.scaled-down{
+  transform: scale(0.8);
+}
+
+.post-container{
+}
+
+.held{
+  opacity: 0.95;
+  position: relative;
+    left: 0;
+    top: 0;
+  z-index:  9999 !important;
+}
+/* TEST OVER */
 
 
 
 .posts-container{
-
+  display: inline-block;
+  overflow-x: hidden;
   }
+
+
 
   .post{
     margin-bottom: 20px;
-    overflow: hidden;
+    overflow:      hidden;
+    position:      relative;
+    transition: transform .2s;
+    width:         100%;
+    
 
     -webkit-box-shadow: 0 11px 16px -12px rgba(0, 0, 0, 0.2);
        -moz-box-shadow: 0 11px 16px -12px rgba(0, 0, 0, 0.2);
@@ -301,12 +317,12 @@ html{
         text-decoration: none;
       }
       .related{
-        border:           solid 2px;
+        border:           solid 2px #4676B6;
           border-radius:  4px;
         box-shadow:       0px 0px 1px 0px #4676B6;
         display:          inline-block;
         margin:           10px 5px 0px;
-        max-width:        300px;
+        max-width:        280px;
         padding:          7px 6px;
   }/* #.post */
     
