@@ -32,9 +32,7 @@ function setMovablePost($posts) {
     var $post = $post_container.find(".post");
     var post_width = $post.width();
 
-    var $feature_slogan_drag = $("#feature-slogan-drag");
-    var $feature_slogan_drop = $("#feature-slogan-drop");
-
+    var $feature_header = $("#feature-header");
 
     // Espera x segundos para ver se o usuário não soltou o dedo
     /*
@@ -90,7 +88,7 @@ function setMovablePost($posts) {
         com a navegação.
         O post deve sumir após isso.
       */
-      $("#feature-header").slideDown();
+      $feature_header.slideDown();
     }, 100);
 
     // Muda o status do post para o id do setTimeout
@@ -113,11 +111,17 @@ function setMovablePost($posts) {
 
         // Tratando quando o usuário deixa o post sobre "ver depois"
         if(e.originalEvent.touches[0].clientY <= 78){
-          malarkey(document.querySelector("#feature-slogan-drag"))
-            .delete()
-            .type("A égua da vaca");
-        } else{
-
+          if($feature_header.hasClass("off-feature")){
+            $feature_header
+              .removeClass("off-feature")
+              .addClass("on-feature");
+            $post_container.css("opacity", 0);
+          }
+        } else if($feature_header.hasClass("on-feature")){
+          $feature_header
+            .removeClass("on-feature")
+            .addClass("off-feature");
+          $post_container.css("opacity", 1);
         }
 
       } else {
@@ -132,20 +136,29 @@ function setMovablePost($posts) {
 
     var $post_container = $(this);
     var $post = $post_container.find(".post");
+    var $feature_header = $("#feature-header");
 
     // Acaba com o timeout, caso ele ainda esteja em espera
     clearTimeout($post_container.data("touch-status"));
+    console.log(e);
+    if(e.originalEvent.changedTouches[0].clientY <= 78){
+      $post_container.remove();
+    } else{
+      // Reseta todo o processo de animação
+      $post_container.removeData("touch-status")
+        .off("touchmove")
+        .removeClass("held")
+        .addClass("post-transition")
+        .css("transform", "translate(0,0)");
+      $post.css("transform", "scale(1) translate(0, 0)");
+    }
 
-    // Reseta todo o processo de animação
-    $post_container.removeData("touch-status")
-      .off("touchmove")
-      .removeClass("held")
-      .addClass("post-transition")
-      .css("transform", "translate(0,0)");
-    $post.css("transform", "scale(1) translate(0, 0)");
-
+    $feature_header
+      .removeClass("on-feature")
+      .addClass("off-feature");
+    
     /* Extras relacionados à outras funcionalidades */
-    $("#feature-header").slideUp();
+    $feature_header.slideUp();
   });
 }
 
@@ -154,5 +167,4 @@ $(document).ready(function() {
   var $posts = $(".posts-container");
 
   setMovablePost($posts);
-
 });

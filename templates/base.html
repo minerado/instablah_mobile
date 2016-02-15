@@ -17,16 +17,14 @@
     <span id="logo"><img id="logo-img" src="/static/img/insta.png">Instablah</span>
     <span id="header-hashtag">#{{hashtag.name}}</span>
   </div>
-  <div id="feature-header">
+  <div id="feature-header" class="off-feature">
     <span id="feature-slogan-drag">Arraste aqui para ver depois!</span>
-    <span id="feature-slogan-drop">Agora solte... </span>
   </div>
 
   {% block main %}
   {% endblock %}
   
 </body>
-<script src="/static/js/malarkey.min.js"></script>
 <script src="/static/js/post.js"></script>
 <script type="text/javascript">
   $(document).ready(function(){
