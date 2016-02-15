@@ -7,7 +7,7 @@ function grabPostUI($post, x, y, scale, angle) {
   var scale_proportion = ((scale - 1) / scale);
 
   $post.css("transform",
-    "scale(" + scale + ") " +
+    "translate3d(0, 0, 0) scale(" + scale + ") " +
     "translate(" +
     (scale_proportion * (post_half_width - x)) + "px," +
     (scale_proportion * (post_half_height - y + top)) + "px)");
@@ -31,6 +31,10 @@ function setMovablePost($posts) {
     var $post_container = $(this);
     var $post = $post_container.find(".post");
     var post_width = $post.width();
+
+    var $feature_slogan_drag = $("#feature-slogan-drag");
+    var $feature_slogan_drop = $("#feature-slogan-drop");
+
 
     // Espera x segundos para ver se o usuário não soltou o dedo
     /*
@@ -75,6 +79,18 @@ function setMovablePost($posts) {
         delay no movimento 
       */
       $post_container.removeClass("post-transition");
+
+      /* Extras relacionados à outras funcionalidades */
+      // Barra de "ver depois"
+      /*
+        Quando o usuário segura o post, devem aparecer diversas
+        opções na tela, como a de "ver depois".
+        Ao soltar o post na barra de ver depois, o usuário
+        salva seu post para uma leitura posterior e continua
+        com a navegação.
+        O post deve sumir após isso.
+      */
+      $("#feature-header").slideDown();
     }, 100);
 
     // Muda o status do post para o id do setTimeout
@@ -88,13 +104,22 @@ function setMovablePost($posts) {
     $post_container.on("touchmove", function(e) {
       if ($post_container.data("touch-status") === "held") {
         e.preventDefault();
-        console.log(((e.originalEvent.touches[0].pageX-initial_x)/scale)/post_width);
         $post_container.css({
-          "transform": "translate(" +
+          "transform": "translate3d(0, 0, 0) translate(" +
             (e.originalEvent.touches[0].pageX-initial_x)/scale + "px, " +
             (e.originalEvent.touches[0].pageY-initial_y)/scale + "px) " +
             "rotate(" + angle*(((e.originalEvent.touches[0].pageX-initial_x)/scale)/post_width) + "deg)"
         });
+
+        // Tratando quando o usuário deixa o post sobre "ver depois"
+        if(e.originalEvent.touches[0].clientY <= 78){
+          malarkey(document.querySelector("#feature-slogan-drag"))
+            .delete()
+            .type("A égua da vaca");
+        } else{
+
+        }
+
       } else {
         clearTimeout(timeout);
         $post_container.off("touchmove");
@@ -118,6 +143,9 @@ function setMovablePost($posts) {
       .addClass("post-transition")
       .css("transform", "translate(0,0)");
     $post.css("transform", "scale(1) translate(0, 0)");
+
+    /* Extras relacionados à outras funcionalidades */
+    $("#feature-header").slideUp();
   });
 }
 

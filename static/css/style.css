@@ -91,37 +91,23 @@ html{
 /* MAIN CSS */
 
 #header{
-  background-color: white;
-  height:           78px;
-  line-height:      78px;
-  padding:          0 15px;
-  width:            100%;
-  }
-  #logo{
-    float: left;
-    }
-    #logo-img{
-      height:       30px;
-      position:     relative;
-      top:          7px;
-      margin-right: 5px;
-}/* ##header */
-
-#hashtag-cover{
   background-color:      white;
     background-position: center;
     background-size:     cover;
     background-repeat:   no-repeat;
-  height:                200px;
-  margin-bottom:         15px;
+  color:                 white;
+  height:                78px;
+  line-height:           78px;
+  padding:               0 15px;
   position:              relative;
   width:                 100%;
+  z-index:               999;
 
-  -web-kit-box-shadow: 0 3px 13px 0px rgb(122, 122, 122);
-      -moz-box-shadow: 0 3px 13px 0px rgb(122, 122, 122);
-           box-shadow: 0 3px 13px 0px rgb(122, 122, 122);
+  -web-kit-box-shadow: 0 0px 10px -1px rgba(0, 0, 0, 0.52);
+      -moz-box-shadow: 0 0px 10px -1px rgba(0, 0, 0, 0.52);
+           box-shadow: 0 0px 10px -1px rgba(0, 0, 0, 0.52);
   }
-  #hashtag-cover-overlay{
+  #header-overlay{
     background-color: rgba(0, 0, 0, 0.64);
     height:           100%;
     position:         absolute;
@@ -129,28 +115,82 @@ html{
       top:            0;
     width:            100%;
   }
-  #hashtag-name-container{
-    height: 100%;
-    position: relative;
+  #logo{
+    float:       left;
+    position:    relative;
+    font-weight: bold;
+    font-size:   18px;
     }
-    #hashtag-name{
-      color:         white;
-      font-size:     24px;
-      padding-right: 15px;
-      position:      absolute;
-        bottom:      30px;
-        left:        15px;
-      word-break:    break-word;
+    #logo-img{
+      height:       30px;
+      position:     relative;
+      top:          7px;
+      margin-right: 5px;
+  }
+
+  #header-hashtag{
+    float:         right;
+    font-size:     16px;
+    overflow:      hidden;
+    position:      relative;
+    text-align:    right;
+    text-overflow: ellipsis;
+    width:         150px;
+
+}/* ##header */
+
+#feature-header{
+  background-color: #4676B6;
+  color:            white;
+  display:          none;
+  font-size:        19px;
+    font-weight:    bold;
+  height:           78px;
+  padding:          30px 15px;
+  position:         fixed;
+    left: 0;
+    top:  0;
+  text-align:       center;
+  width:            100%;
+  z-index:          10000;
+  }
+  #feature-slogan-drag{
+    -webkit-transition: .25s;
+       -moz-transition: .25s;
+            transition: .25s;
+  }
+
+  #feature-slogan-drop{
+    display: none;
+    -webkit-transition: .25s;
+       -moz-transition: .25s;
+            transition: .25s;
+}
+
+.nones{
+  opacity: 0;
+}
+
+.test{
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .posts-container{
   display: inline-block;
   overflow-x: hidden;
+  position: relative;
+  width: 100%;
   }
 
+  .post-container{
 
+  }
 
   .post{
+    -webkit-user-select:none;
+    -webkit-touch-callout:none;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
     margin-bottom: 20px;
     overflow:      hidden;
     position:      relative;
