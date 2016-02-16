@@ -18,7 +18,7 @@ baseado na posição do dedo do usuário
 */
 function setMovablePost($posts) {
 
-  var scale = 0.85;
+  var scale = 0.95;
   var angle = 10;
 
   $posts.on("touchstart", ".post-container", function(e) {
@@ -26,6 +26,13 @@ function setMovablePost($posts) {
     // Salva a posição xy inicial do dedo na tela
     var initial_x = e.originalEvent.touches[0].pageX;
     var initial_y = e.originalEvent.touches[0].pageY;
+
+    /* PARTE DE TESTES */
+    var thresh_x = 30;
+    var thresh_y = 10;
+    var lock = 1;
+    var lockY = 1;
+    /*******************/
 
     // Cacheia elementos necessários para a mágica
     var $post_container = $(this);
@@ -89,7 +96,7 @@ function setMovablePost($posts) {
         O post deve sumir após isso.
       */
       $feature_header.slideDown();
-    }, 100);
+    }, 4000);
 
     // Muda o status do post para o id do setTimeout
     /*
@@ -100,12 +107,28 @@ function setMovablePost($posts) {
 
     // Aqui fica a parte responsável pela movimentação do post_container
     $post_container.on("touchmove", function(e) {
+
+      if(lock && Math.abs(e.originalEvent.touches[0].pageX - initial_x)>thresh_x){
+        lock = 0;
+        clearTimeout(timeout);
+        $post_container.data("touch-status", "held");
+        grabPostUI($post, initial_x, initial_y, scale, angle);
+        $post_container.addClass("held");
+        $post_container.removeClass("post-transition");
+        //lockY = 0;
+      }
+
+      if(lock && Math.abs(e.originalEvent.touches[0].pageY - initial_y)>thresh_y){
+        lock = 0;
+        clearTimeout(timeout);
+      }
+
       if ($post_container.data("touch-status") === "held") {
         e.preventDefault();
         $post_container.css({
           "transform": "translate3d(0, 0, 0) translate(" +
             (e.originalEvent.touches[0].pageX-initial_x)/scale + "px, " +
-            (e.originalEvent.touches[0].pageY-initial_y)/scale + "px) " +
+            lockY*(e.originalEvent.touches[0].pageY-initial_y)/scale + "px) " +
             "rotate(" + angle*(((e.originalEvent.touches[0].pageX-initial_x)/scale)/post_width) + "deg)"
         });
 
@@ -124,9 +147,15 @@ function setMovablePost($posts) {
           $post_container.css("opacity", 1);
         }
 
+        // Trata da ação de compartilhar no whatsapp
+        if((((e.originalEvent.touches[0].pageX-initial_x)/scale)/post_width)>0){
+          $(".posts-container").css("background-color", "#56DD4B");
+        } else {
+          $(".posts-container").css("background-color", "red");
+        }
+
       } else {
         clearTimeout(timeout);
-        $post_container.off("touchmove");
       }
       return true;
     });
@@ -153,12 +182,15 @@ function setMovablePost($posts) {
       $post.css("transform", "scale(1) translate(0, 0)");
     }
 
+    $post_container.off("touchmove");
+
     $feature_header
       .removeClass("on-feature")
       .addClass("off-feature");
     
     /* Extras relacionados à outras funcionalidades */
     $feature_header.slideUp();
+    $(".posts-container").css("background-color", "rgba(0,0,0,0)");
   });
 }
 

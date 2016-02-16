@@ -154,14 +154,13 @@ html{
   width:            100%;
   z-index:          10000;
 
-  -webkit-transition: font-size .25s, background-color .25s;
-     -moz-transition: font-size .25s, background-color .25s;
-          transition: font-size .25s, background-color .25s;
+  -webkit-transition: background-color .25s;
+     -moz-transition: background-color .25s;
+          transition: background-color .25s;
   }
 
   .on-feature{
     background-color: #4DB972 !important;
-    font-size: 20px !important;
   }
 
   .off-feature{
