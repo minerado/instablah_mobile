@@ -1,3 +1,5 @@
+{% from 'macros.html' import render_whatsapp %}
+
 <div class="post-container">
     <div class="post">
         <div class="post-header">
@@ -9,7 +11,7 @@
                 <div class="post-hashtag truncate">#{{ hashtag.name }}</div>
             </div>
             <div class="post-share-container">
-                <img class="post-share-button" src="/static/img/whats.png">
+                {{ render_whatsapp(hashtag, post) }}
             </div>
         </div>
         <div class="post-content">
