@@ -7,8 +7,7 @@ from flask import Flask, abort, render_template
 # Setup
 app = Flask(__name__)
 ENDPOINT = "http://www.instablah.com.br/api/v1"
-requests_cache.install_cache('instablah_api', expire_after=1)
-
+requests_cache.install_cache('instablah_api', expire_after=30)
 
 # Model
 
@@ -39,6 +38,11 @@ def get_post_content(post_id):
 
 
 # Routes
+
+@app.route("/")
+def index():
+    return show_hashtag(slug="Instablah")
+
 
 @app.route("/<slug>")
 def show_hashtag(slug):
