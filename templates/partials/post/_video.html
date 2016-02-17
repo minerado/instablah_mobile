@@ -1,7 +1,8 @@
 {% extends "partials/post/_post.html" %}
 
 {% block post_content %}
-    <div class="post-video-container">
+    <div class="post-video-container card-2">
         <iframe class="post-video" src="https://www.youtube.com/embed/{{feature.url.split('v=')[1]}}" frameborder="0" allowfullscreen></iframe>
+        <div class="post-video-layer"></div>
     </div>
 {% endblock %}

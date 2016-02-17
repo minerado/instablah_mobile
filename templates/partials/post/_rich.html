@@ -2,11 +2,13 @@
 
 {% block post_content %}
     <a href="{{hashtag.slug}}/{{post.slug}}/{{post.id}}/richcontent" class="post-link-anchor">
-        <div class="post-link-container">
+        <div class="post-link-container card-2">
             <div class="post-link-img" style="background-image: url('{{ post.cover }}')"></div>
             <div class="post-link-overlay"></div>
-            <div class="post-link-title">{{ post.title }}</div>
-            <div class="post-link-click">(Clique para ver link...)</div>
+            <div class="post-link-text-container clearfix">
+                <div class="post-link-title">{{ post.title }}</div>
+                <div class="post-link-click">(Clique para ver link...)</div>
+            </div>
         </div>
     </a>
 {% endblock %}

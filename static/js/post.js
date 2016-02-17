@@ -1,16 +1,165 @@
 // Função responsável por "desenhar" um estado de "pego" pro post
-function grabPostUI($post, x, y, scale, angle) {
-  var post_half_width = $post.width() / 2;
-  var post_half_height = $post.height() / 2;
-  var top = $post.offset().top;
+function grabPost(opts) {
+  // Seleciona elemento a ser escalado
+  var $post = opts.$post_container.find(".post");
 
-  var scale_proportion = ((scale - 1) / scale);
+  // Define proporção para translado
+  var proportion = 1 - 1/opts.scale;
 
+  // Define propriedades para o post, após movimentá-lo
+  opts.$post_container
+    .data("touch-status", "held")
+    .addClass("held")
+    .removeClass("post-transition");
+
+  $post
+    .addClass("card-hover");
+
+  if(opts.video){
+    opts.$video_layer.show();
+  }
+
+  // Cálculo do movimento do post
+  /* Movimenta post usando transform (scale e translate),
+  assim como um translate3d para acelerar a placa de vídeo
+  do device */
   $post.css("transform",
-    "translate3d(0, 0, 0) scale(" + scale + ") " +
+    "translate3d(0, 0, 0)" +
+    "scale(" + opts.scale + ") " +
     "translate(" +
-    (scale_proportion * (post_half_width - x)) + "px," +
-    (scale_proportion * (post_half_height - y + top)) + "px)");
+      (proportion * ($post.width()/2 - opts.x)) + "px," +
+      (proportion * ($post.height()/2 - opts.y + $post.offset().top)) + "px)");
+  
+  if(opts.ponctual_held){
+    toggleHeaderFeature(opts);  
+  }
+  else{
+
+  }
+}
+
+function releasePost(opts){
+  toggleHeaderFeature(opts, 1);
+}
+
+function toggleHeaderFeature(opts, state){
+  if(!state){
+    opts.$feature_header.stop(true, true).fadeIn(true);
+    return false;
+  }
+  opts.$feature_header.stop(true, true).fadeOut(true);
+}
+
+function checkHold(opts){
+  if (opts.$post_container.data("touch-status") === "held") {
+    opts.swipe_check = true;
+    return true;
+  }
+
+  return false;
+}
+
+function checkSwipe(opts, page_x, page_y, timeout_id){
+  var delta_x = page_x - opts.x;
+  var delta_y = page_y - opts.y;
+
+  if (!opts.swipe_check && Math.abs(delta_y) > opts.thresh_y) {
+    opts.swipe_check = !opts.swipe_check;
+    return false;
+  }
+
+  if (!opts.swipe_check && Math.abs(delta_x) > opts.thresh_x) {
+    clearTimeout(timeout_id);
+
+    opts.x += delta_x;
+    opts.y += delta_y;
+
+    grabPost(opts);
+    
+    opts.swipe_check = !opts.swipe_check;
+    return true;
+  }
+
+  return false;
+}
+
+function movePost(opts, page_x, page_y){
+  opts.$post_container.css({
+    "transform": "translate3d(0, 0, 0) translate(" +
+      (page_x-opts.x)/opts.scale + "px, " +
+      (page_y-opts.y)/opts.scale + "px) " +
+      "rotate(" + opts.angle*(((page_x-opts.x)/opts.scale)/opts.post_width) + "deg)"
+  });
+}
+
+function checkPosition(opts, page_x, window_y, bg_scale){
+
+  var delta_x = (((page_x-opts.x)/opts.scale)/opts.post_width);
+
+  // Checa se cursor está em cima da feature central
+  if (window_y <= 78) {
+    if (opts.$feature_header.hasClass("off-feature")) {
+      opts.$feature_header
+        .removeClass("off-feature")
+        .addClass("on-feature");
+      opts.$post_container.css("opacity", 0.1);
+    }
+  } else if (opts.$feature_header.hasClass("on-feature")) {
+    opts.$feature_header
+      .removeClass("on-feature")
+      .addClass("off-feature");
+    opts.$post_container.css("opacity", 1);
+  }
+
+  // Trata da feature tinder
+  var bg_opacity = Math.min(Math.abs(delta_x*Math.abs(delta_x)*opts.bg_scale), 0.4);
+  bg_opacity *= (delta_x>0 ? 1 : -1);
+  if (!opts.ponctual_held) {
+    opts.$bg1.css("opacity", bg_opacity);
+    opts.$bg2.css("opacity", -bg_opacity);    
+  }
+}
+
+function setDrop(opts){
+  if (opts.client_y <= 78 && opts.ponctual_held) {
+    opts.$post.addClass("hidden");
+  }
+  opts.$post_container
+    .removeData("touch-status")
+    .addClass("post-transition")
+    .off("touchmove");
+
+  opts.$post
+    .css("transform", "scale(1) translate(0, 0)")
+    .removeClass("card-hover");
+
+  if(opts.delta_x > 160 && !opts.ponctual_held){
+    opts.$post_container
+      .css("transform", "translate(" + 1.5*(opts.post_width/2) + "px,0)");
+    opts.$post
+      .css("transform", "scale(1) rotate(7deg)");
+    opts.$actions_container.css("opacity", "1");
+
+  } else if(opts.delta_x < -160 && !opts.ponctual_held){
+    opts.$post_container
+      .css("transform", "translate(" + -1.5*(opts.post_width/2) + "px,0)");
+    opts.$post
+      .css("transform", "scale(1) rotate(-7deg)");
+    opts.$actions_container.css("opacity", "1");
+
+  } else{
+    opts.$post_container
+      .css("transform", "translate(0,0)");
+    opts.$post
+      .css("transform", "scale(1) translate(0, 0)");
+
+    // Apaga o background para não ficar com a tela de like/dislike
+    opts.$actions_container.css("opacity", "0");
+
+    opts.$feature_header
+      .removeClass("on-feature")
+      .addClass("off-feature");
+  }
 }
 
 /* Função responsável por movimentar o post
@@ -18,179 +167,164 @@ baseado na posição do dedo do usuário
 */
 function setMovablePost($posts) {
 
-  var scale = 0.95;
-  var angle = 10;
+  // Cacheia elementos únicos
+  var $feature_header = $("#feature-header");
+  var $actions_container = $("#actions-container");
+  var $bg1 = $actions_container.find("#bg-1");
+  var $bg2 = $actions_container.find("#bg-2");
+  var $video_layer = $(".post-video-layer");
 
+  // Escala de diminuição do post
+  var scale = 0.98;
+  // Ângulo máximo que o post vira
+  var angle = 10;
+  // Constante da potência de variação do background
+  var bg_scale = 3;
+
+  // Seta largura dos posts
+  var post_width = $(window).width();
+
+  // Seta limites para swipe vertical e horizontal
+  var thresh_x = 30,
+      thresh_y = 10;
+
+  // Seta variáveis que dizem qual as coordenadas da posicao inicial do toque
+  var initial_x_client;
+  var initial_y_client;
+
+  // Seta se post foi segurado ou arrastado
+  var ponctual_held = false;
+
+
+  // Função que acontece quando a pessoa toca na tela
   $posts.on("touchstart", ".post-container", function(e) {
+    // Cacheia elementos necessários
+    var $post_container = $(this);
 
     // Salva a posição xy inicial do dedo na tela
-    var initial_x = e.originalEvent.touches[0].pageX;
-    var initial_y = e.originalEvent.touches[0].pageY;
+    var initial_x_page = e.originalEvent.touches[0].pageX;
+    var initial_y_page = e.originalEvent.touches[0].pageY;
+    initial_x_client = initial_x_page;
+    initial_y_client = initial_y_page;
 
-    /* PARTE DE TESTES */
-    var thresh_x = 30;
-    var thresh_y = 10;
-    var lock = 1;
-    var lockY = 1;
-    /*******************/
 
-    // Cacheia elementos necessários para a mágica
-    var $post_container = $(this);
-    var $post = $post_container.find(".post");
-    var post_width = $post.width();
+    var opts = {
+      x: initial_x_page,
+      y: initial_y_page,
+      thresh_x: thresh_x,
+      thresh_y:thresh_y,
+      scale: scale,
+      angle: angle,
+      $feature_header: $feature_header,
+      $post_container: $post_container,
+      swipe_check: false,
+      post_width: post_width,
+      $actions_container: $actions_container,
+      $bg1: $bg1,
+      $bg2: $bg2,
+      bg_scale: bg_scale,
+      video: $(e.target).hasClass("post-video-layer"),
+      ponctual_held: ponctual_held,
+      $video_layer: $video_layer
+    };
 
-    var $feature_header = $("#feature-header");
+    if(opts.video){
+      $video_layer.hide();    
+    }
 
-    // Espera x segundos para ver se o usuário não soltou o dedo
-    /*
-      Aqui, estou checando se o "touch-status" do post foi modificado
-      por algum outro evento, caso tenha sido (muito provavelmente para 0),
-      nada deve acontecer.
-    */
-    var timeout = setTimeout(function() {
+    var timeout_id = setTimeout(function() {
+      opts.ponctual_held = true;
+      ponctual_held = true;
+      grabPost(opts);
+    }, 400);
 
-      // 1. Muda o estado do post para "held"
-      /*
-        Estou, com isso, fazendo uma máquina de estados,
-        podendo controlar o estado do post dependendo
-        do atributo "data"
-      */
-      $post_container.data("touch-status", "held");
+    $actions_container.css("opacity", "0.8");
+    $bg1.css("opacity", 0);
+    $bg2.css("opacity", 0);
 
-      // 2. Indicar que foi "pego"
-      // Muda o tamanho do post para uma escala x predefinida
-      /*
-        É importante notar que dividi dois transforms:
-        um para o post e outro pra seu container pai.
-        O post é responsável por girar e o container pai
-        por mover. Foi necessário fazer isso devido a problemas
-        de herança no z-index e devido à animações que necessitam
-        ocorrer simultaneamente.
-      */
-      grabPostUI($post, initial_x, initial_y, scale, angle);
+    $post_container
+      .data("touch-status", timeout_id)
+      .on("touchmove", function(e) {
 
-      // Muda a classe do post para "held"
-      /*
-        Essa é a parte responsável por deixar o post a cima
-        dos outros, além de levemente transparente
-      */
-      $post_container.addClass("held");
+        var page_x   = e.originalEvent.touches[0].pageX;
+        var page_y   = e.originalEvent.touches[0].pageY;
+        var window_y = e.originalEvent.touches[0].clientY;
 
-      // 3. Remove classe de transição
-      /*
-        Deve-se remover a classe de transição
-        de animação toda vez que for começar a
-        movimentar o post, já que não queremos
-        delay no movimento 
-      */
-      $post_container.removeClass("post-transition");
+        if (checkSwipe(opts, page_x, page_y, timeout_id) || checkHold(opts)) {
+          e.preventDefault();
 
-      /* Extras relacionados à outras funcionalidades */
-      // Barra de "ver depois"
-      /*
-        Quando o usuário segura o post, devem aparecer diversas
-        opções na tela, como a de "ver depois".
-        Ao soltar o post na barra de ver depois, o usuário
-        salva seu post para uma leitura posterior e continua
-        com a navegação.
-        O post deve sumir após isso.
-      */
-      $feature_header.slideDown();
-    }, 4000);
+          movePost(opts, page_x, page_y);
 
-    // Muda o status do post para o id do setTimeout
-    /*
-      Fica mais fácil de cancelar o setTimeout se eu tiver
-      guardado seu id
-    */
-    $post_container.data("touch-status", timeout);
-
-    // Aqui fica a parte responsável pela movimentação do post_container
-    $post_container.on("touchmove", function(e) {
-
-      if(lock && Math.abs(e.originalEvent.touches[0].pageX - initial_x)>thresh_x){
-        lock = 0;
-        clearTimeout(timeout);
-        $post_container.data("touch-status", "held");
-        grabPostUI($post, initial_x, initial_y, scale, angle);
-        $post_container.addClass("held");
-        $post_container.removeClass("post-transition");
-        //lockY = 0;
-      }
-
-      if(lock && Math.abs(e.originalEvent.touches[0].pageY - initial_y)>thresh_y){
-        lock = 0;
-        clearTimeout(timeout);
-      }
-
-      if ($post_container.data("touch-status") === "held") {
-        e.preventDefault();
-        $post_container.css({
-          "transform": "translate3d(0, 0, 0) translate(" +
-            (e.originalEvent.touches[0].pageX-initial_x)/scale + "px, " +
-            lockY*(e.originalEvent.touches[0].pageY-initial_y)/scale + "px) " +
-            "rotate(" + angle*(((e.originalEvent.touches[0].pageX-initial_x)/scale)/post_width) + "deg)"
-        });
-
-        // Tratando quando o usuário deixa o post sobre "ver depois"
-        if(e.originalEvent.touches[0].clientY <= 78){
-          if($feature_header.hasClass("off-feature")){
-            $feature_header
-              .removeClass("off-feature")
-              .addClass("on-feature");
-            $post_container.css("opacity", 0);
-          }
-        } else if($feature_header.hasClass("on-feature")){
-          $feature_header
-            .removeClass("on-feature")
-            .addClass("off-feature");
-          $post_container.css("opacity", 1);
+          checkPosition(opts, page_x, window_y);
+        }
+        else{
+          clearTimeout(timeout_id);
         }
 
-        // Trata da ação de compartilhar no whatsapp
-        if((((e.originalEvent.touches[0].pageX-initial_x)/scale)/post_width)>0){
-          $(".posts-container").css("background-color", "#56DD4B");
-        } else {
-          $(".posts-container").css("background-color", "red");
-        }
-
-      } else {
-        clearTimeout(timeout);
-      }
-      return true;
-    });
+        return true;
+      });
   });
 
-  $posts.on("touchend", ".post-container", function(e) {
+  $posts.on("touchend", ".post-container", function(e) { 
 
-    var $post_container = $(this);
-    var $post = $post_container.find(".post");
-    var $feature_header = $("#feature-header");
+    // Cacheia elementos
+    var $post_container    = $(this);
+    var $post              = $post_container.find(".post");
+
+    // Pega posição em que o dedo está, relacionado à janela
+    var client_x = e.originalEvent.changedTouches[0].clientX;
+    var client_y = e.originalEvent.changedTouches[0].clientY;
+    var delta_x = client_x - initial_x_client;
+    var delta_y = client_y - initial_y_client;
+
+    // Verifica se post está sendo segurado
+    var held = $post_container.hasClass("held");
+
+    // Verifica se clicou em um vídeo
+    var video = $(e.target).hasClass("post-video-layer");
+
+    var opts = {
+      $post_container: $post_container,
+      $post: $post,
+      $feature_header: $feature_header,
+      $bg1: $bg1,
+      $bg2: $bg2,
+      video: video,
+      client_x: client_x,
+      client_y: client_y,
+      held: held,
+      delta_x: delta_x,
+      delta_y: delta_y,
+      $actions_container: $actions_container,
+      ponctual_held: ponctual_held,
+      post_width: post_width
+    };
 
     // Acaba com o timeout, caso ele ainda esteja em espera
     clearTimeout($post_container.data("touch-status"));
-    console.log(e);
-    if(e.originalEvent.changedTouches[0].clientY <= 78){
-      $post_container.remove();
-    } else{
-      // Reseta todo o processo de animação
-      $post_container.removeData("touch-status")
-        .off("touchmove")
-        .removeClass("held")
-        .addClass("post-transition")
-        .css("transform", "translate(0,0)");
-      $post.css("transform", "scale(1) translate(0, 0)");
+
+    // Evita que o cara entre em um link se tiver segurado o post
+    if(held){
+      e.preventDefault();
+      toggleHeaderFeature({$feature_header: $feature_header}, 1);
+      $post_container.removeClass("held");
     }
 
-    $post_container.off("touchmove");
+    // Função que cuida da ação de soltar o post
+    setDrop(opts);
 
-    $feature_header
-      .removeClass("on-feature")
-      .addClass("off-feature");
-    
     /* Extras relacionados à outras funcionalidades */
-    $feature_header.slideUp();
-    $(".posts-container").css("background-color", "rgba(0,0,0,0)");
+
+    
+    
+    // Se a pessoa clicou no video, a overlay deve voltar
+    if(video){
+      setTimeout(function(){
+        $video_layer.show();
+      }, 1000);  
+    }
+
+    ponctual_held = false;
   });
 }
 

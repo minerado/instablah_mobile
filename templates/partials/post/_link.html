@@ -1,13 +1,16 @@
 {% extends "partials/post/_post.html" %}
 
 {% block post_content %}
-    <a href="{{ feature.url }}" class="post-link-anchor" target="_blank">
-        <div class="post-link-container">
-            <div class="post-link-img" style="background-image: url('{{ feature.image.medium }}')"></div>
+    <a href="{{ feature.url }}" class="post-link-anchor clearfix" target="_blank">
+        <div class="post-link-container card-2">
+            <div class="post-link-img" style="background-image: url('{{ feature.image.original }}')"></div>
             <div class="post-link-overlay"></div>
-            <div class="post-link-title">{{ feature.title }}</div>
-            <div class="post-link-description">{{ feature.description }}</div>
-            <div class="post-link-click">(Clique para ver link...)</div>
+            <div class="post-link-text-container clearfix">
+                <div class="post-link-title">{{ feature.title }}</div>
+                <div class="post-link-description">{{ feature.description }}</div>
+                <div class="post-link-click">(Clique para ver link...)</div>
+            </div>
+            
         </div>
     </a>
 {% endblock %}

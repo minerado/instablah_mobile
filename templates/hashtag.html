@@ -1,10 +1,9 @@
 {% extends "base.html" %}
 
 {% block header %}
-    <div id="header" style="background-image:url({{ hashtag.image.medium }})">
-      <div id="header-overlay"></div>
+    <div id="header" class="card">
       <span id="logo"><img id="logo-img" src="/static/img/insta.png">Instablah</span>
-      <span id="header-hashtag">#{{hashtag.name}}</span>
+      <span id="header-hashtag" class="truncate">#{{hashtag.name}}</span>
     </div>
     <div id="feature-header" class="off-feature">
       <span id="feature-slogan-drag">Arraste aqui para ver depois!</span>
@@ -12,6 +11,10 @@
 {% endblock %}
 
 {% block main %}
+    <div id="actions-container">
+        <div id="bg-1"></div>
+        <div id="bg-2"></div>
+    </div>
     <div class="posts-container">
         {% for post in posts.models %}
 
