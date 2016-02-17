@@ -7,7 +7,7 @@ from flask import Flask, abort, render_template
 # Setup
 app = Flask(__name__)
 ENDPOINT = "http://www.instablah.com.br/api/v1"
-requests_cache.install_cache('instablah_api', expire_after=300)
+requests_cache.install_cache('instablah_api', expire_after=30)
 
 
 # Model
