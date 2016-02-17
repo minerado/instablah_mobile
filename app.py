@@ -40,6 +40,11 @@ def get_post_content(post_id):
 
 # Routes
 
+@app.route("/")
+def index():
+    return show_hashtag(slug="Instablah")
+
+
 @app.route("/<slug>")
 def show_hashtag(slug):
     hashtag = get_hashtag_meta(slug)
