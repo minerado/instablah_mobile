@@ -5,34 +5,32 @@
 {% block title%}{{ post.title }}{% endblock %}
 
 {% block main %}
-    <div class="posts-container">
-        <div class="post">
-          <div class="post-header">
-            <div class="post-user-img-container">
-              <img class="post-user-img" src="{{ post.persona.image.small }}">
-            </div>
-            <div class="post-credentials">
-              <div class="post-username blue truncate">{{ post.persona.name }}</div>
-              <div class="post-hashtag truncate">#{{ hashtag.name }}</div>
-            </div>
-          <div class="post-share-container">
-              {{ render_whatsapp(hashtag, post) }}
-          </div>
-          </div>
-          <div class="post-content">
-            <div class="post-img-container">
-              <img class="post-img" src="{{ post.cover }}">
-            </div>
-            <div class="post-text-container">
-              <div class="post-text-title">{{ post.title }}</div>
-              <div class="post-text-body">{{ post.html|safe }}</div>
-            </div>
-          </div>
-          <div class="post-related blue">
-            {% for related in post.relateds %}
-                <span>#{{ related.name }}</span>
-            {% endfor %}
-          </div>
+    <div class="post">
+      <div class="post-header">
+        <div class="post-user-img-container">
+          <img class="post-user-img" src="{{ post.persona.image.small }}">
         </div>
+        <div class="post-credentials">
+          <div class="post-username blue truncate">{{ post.persona.name }}</div>
+          <div class="post-hashtag truncate">#{{ hashtag.name }}</div>
+        </div>
+      <div class="post-share-container">
+          {{ render_whatsapp(hashtag, post) }}
+      </div>
+      </div>
+      <div class="post-content">
+        <div class="post-img-container">
+          <img class="post-img" src="{{ post.cover }}">
+        </div>
+        <div class="post-text-container">
+          <div class="post-text-title">{{ post.title }}</div>
+          <div class="post-text-body">{{ post.html|safe }}</div>
+        </div>
+      </div>
+      <div class="post-related blue">
+        {% for related in post.relateds %}
+            <span>#{{ related.name }}</span>
+        {% endfor %}
+      </div>
     </div>
 {% endblock %}
