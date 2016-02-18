@@ -193,7 +193,7 @@
 
 
     // Função que acontece quando a pessoa toca na tela
-    $posts.on("touchstart", ".post-container", function(e) {
+    $posts.on("touchcancel", ".post-container", function(e) {
       // Cacheia elementos necessários
       var $post_container = $(this);
 
@@ -264,7 +264,7 @@
         });
     });
 
-    $posts.on("touchend", ".post-container", function(e) { 
+    $posts.on("touchcancel", ".post-container", function(e) { 
 
       // Cacheia elementos
       var $post_container    = $(this);
@@ -337,6 +337,7 @@
 
     /* Novo Código */
     /***********************************************************/
+    /* Declarações de funções e variáveis */
     
     // Move Function
     /* Move e gira um elemento para uma determinada coordenada */
@@ -360,8 +361,13 @@
       TweenMax.to(this, 0, opts);
     };
 
-    var $posts_container = $("#posts-container");
 
+    var $posts_container = $("#posts-container");
+    var $share = $("#share");    
+    // Variáveis que serão usadas durante o programa
+    var hold_scale = 0.95;
+
+    /* Programa */
     /*  */
     $posts_container.on("touchstart", ".post", function(e){
       var $post = $(this);
@@ -375,7 +381,7 @@
       console.log(coordinates);
 
       var timeout_id = setTimeout(function() {
-        console.log("eae");
+        $post.hold(hold_scale);
       }, 400);
 
     });

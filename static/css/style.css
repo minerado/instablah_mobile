@@ -47,6 +47,7 @@ table {
 
 /* Z-index's Index
   #header:999
+  #share:99999;
   *.held:9999
   .post-link-img
     .post-link-img:1
@@ -165,32 +166,26 @@ html{
 
 }/* ##header */
 
-#feature-header{
-  background-color: #4676B6;
-  color:            white;
-  display:          none;
-  font-size:        19px;
-    font-weight:    bold;
-  height:           78px;
-  padding:          30px 15px;
-  position:         fixed;
-    left: 0;
-    top:  0;
-  text-align:       center;
-  width:            100%;
-  z-index:          10000;
-
-  -webkit-transition: background-color .25s;
-     -moz-transition: background-color .25s;
-          transition: background-color .25s;
+#share{
+  background-color: #1CA62D;
+  border-radius: 50%;
+  height: 80px;
+  position: fixed;
+    bottom: 15px;
+    left: 50%;
+    z-index: 99999;
+  transform: translate(-50%, 0);
+  width: 80px;
   }
+  #share-img{
+    height: 45px;
+    position: relative;
+      left: 50%;
+      top: 50%;
+    transform: translate(-50%,-50%);
+    width: 45px;
+}
 
-  .on-feature{
-    background-color: #4DB972 !important;
-  }
-
-  .off-feature{
-  }
 
 #actions-container{
   height:   100vh;
