@@ -349,6 +349,8 @@
       };
 
       TweenMax.to(this, 0, opts);
+
+      return this;
     };
 
     // Hold Function
@@ -359,11 +361,37 @@
         scale: scale
       };
       TweenMax.to(this, 0, opts);
+
+      return this;
     };
 
+    // Faz (des)aparecer o botao de share
+    /* show = true faz botao aparecer */
+    $.fn.toggleShare = function(show){
+      var opts = {
+        bottom: show ? 15 : -80
+      };
 
+      TweenMax.to(this, 0.2, opts);
+
+      return this;
+    };
+
+    // Retorna o estado em que o post se encontra (ex: held)
+    $.fn.getState = function(){
+      return this.data("state");
+    };
+
+    // Define estado em que post se encontra (ex: held)
+    $.fn.setState = function(state){
+      this.data("state", state);
+      return this;
+    };
+
+    // Variáveis para cachear elementos da DOM
     var $posts_container = $("#posts-container");
-    var $share = $("#share");    
+    var $share = $("#share");
+
     // Variáveis que serão usadas durante o programa
     var hold_scale = 0.95;
 
@@ -378,10 +406,11 @@
         y_0_cli:  e.originalEvent.touches[0].clientY
       };
 
-      console.log(coordinates);
-
       var timeout_id = setTimeout(function() {
-        $post.hold(hold_scale);
+        $post
+          .hold(hold_scale)
+          .setState("held");
+        $share.toggleShare(true);
       }, 400);
 
     });
