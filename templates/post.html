@@ -1,5 +1,7 @@
 {% extends "base.html"%}
 
+{% from 'macros.html' import render_whatsapp %}
+
 {% block title%}{{ post.title }}{% endblock %}
 
 {% block main %}
@@ -11,25 +13,15 @@
             </div>
             <div class="post-credentials">
               <div class="post-username blue truncate">{{ post.persona.name }}</div>
-              <div class="post-hashtag truncate">{% for related in post.relateds %}{{ related.name }}{% endfor %}</div>
+              <div class="post-hashtag truncate">#{{ hashtag.name }}</div>
             </div>
-            <div class="post-share-container">
-              <img class="post-share-button" src="/static/img/whats.png">
-            </div>
+          <div class="post-share-container">
+              {{ render_whatsapp(hashtag, post) }}
+          </div>
           </div>
           <div class="post-content">
             <div class="post-img-container">
               <img class="post-img" src="{{ post.cover }}">
-            </div>
-            <div class="post-video-container">
-              <iframe class="post-video" src="https://www.youtube.com/embed/iX-QaNzd-0Y" frameborder="0" allowfullscreen></iframe>
-            </div>
-            <div class="post-link-container">
-              <div class="post-link-img"></div>
-              <div class="post-link-overlay"></div>
-              <div class="post-link-title">Lorem Ipsum</div>
-              <div class="post-link-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras massa tortor, porta eu velit sed, tempus ultrices magna. Curabitur quis lacinia risus. Quisque nisl neque, molestie vel pharetra eu, bibendum sit amet risus. Cras ornare lobortis mi. Etiam libero metus, cursus ut semper at, dignissim ac ipsum. Proin vel rutrum ipsum. Integer maximus lorem nisl, sed mattis lectus tempus eu. Etiam lobortis lectus ac augue vehicula porttitor. Vivamus sit amet dignissim justo. Nam placerat nisi ac purus posuere sollicitudin. Nulla ut ultrices magna, a tempor enim. Nam imperdiet sem suscipit auctor dapibus. Proin a facilisis ipsum.</div>
-              <div class="post-link-click">(Clique para ver link...)</div>
             </div>
             <div class="post-text-container">
               <div class="post-text-title">{{ post.title }}</div>

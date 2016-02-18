@@ -54,7 +54,8 @@ def show_hashtag(slug):
 @app.route("/<string:hashtag_slug>/<string:post_slug>/<int:post_id>")
 def show_post(hashtag_slug, post_slug, post_id):
     post = get_post_content(post_id)
-    return render_template('post.html', post=post)
+    hashtag = get_hashtag_meta(hashtag_slug)
+    return render_template('post.html', post=post, hashtag=hashtag)
 
 
 @app.route("/<string:hashtag_slug>/<string:post_slug>/<int:post_id>/richcontent")
@@ -62,7 +63,8 @@ def show_post_richcontent(hashtag_slug, post_slug, post_id):
     post = get_post_content(post_id)
     if not post.get('richcontent'):
         abort(404)
-    return render_template('post.html', post=post)
+    hashtag = get_hashtag_meta(hashtag_slug)
+    return render_template('post.html', post=post, hashtag=hashtag)
 
 
 @app.errorhandler(404)
