@@ -479,6 +479,7 @@
         if(swipe){
           var a = coord_1.x-coord_0.x-30*swipe;
           $post.move(post_pos.left + coord_1.x-coord_0.x-30*swipe, 0, 0);
+          e2.preventDefault();
         }
 
         //$post.move(coord_1.x, coord_1.y);
