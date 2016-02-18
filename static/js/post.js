@@ -2,6 +2,20 @@
 
   'use strict';
 
+  /*
+    Move o post para uma determinada coordenada
+  */
+  function movePost($element, x, y, deg){
+
+    $element.css({
+      "transform": "translate3d(0,0,0) translate(" +
+        x + "px," +
+        y + "px) " +
+        "rotate(" +
+        deg + "deg)"
+    });
+  }
+
   // Função responsável por "desenhar" um estado de "pego" pro post
   function grabPost(opts) {
     // Seleciona elemento a ser escalado
@@ -85,15 +99,6 @@
     }
 
     return false;
-  }
-
-  function movePost(opts, page_x, page_y){
-    opts.$post_container.css({
-      "transform": "translate3d(0, 0, 0) translate(" +
-        (page_x-opts.x)/opts.scale + "px, " +
-        (page_y-opts.y)/opts.scale + "px) " +
-        "rotate(" + opts.angle*(((page_x-opts.x)/opts.scale)/opts.post_width) + "deg)"
-    });
   }
 
   function checkPosition(opts, page_x, window_y, bg_scale){
@@ -257,7 +262,10 @@
           if (checkSwipe(opts, page_x, page_y, timeout_id) || checkHold(opts)) {
             e.preventDefault();
 
-            movePost(opts, page_x, page_y);
+            movePost($post_container,
+              (page_x-opts.x)/opts.scale,
+              (page_y-opts.y)/opts.scale,
+              opts.angle*(((page_x-opts.x)/opts.scale)/opts.post_width));
 
             checkPosition(opts, page_x, window_y);
           }
