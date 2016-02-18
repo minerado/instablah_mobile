@@ -3,26 +3,25 @@
   'use strict';
 
   /*
-    Move o post para uma determinada coordenada
+    Move e gira o post para uma determinada coordenada
   */
-
-
-  function movePost($element, x, y, deg){
-    var movement = {
+  $.fn.move = function(x, y, deg){
+    var opts = {
       left: x,
       top: y,
       rotation: deg
     };
-    TweenMax.to($element, 0, movement);
-/*
-    $element.css({
-      "transform": "translate3d(0,0,0) translate(" +
-        x + "px," +
-        y + "px) " +
-        "rotate(" +
-        deg + "deg)"
-    });*/
-  }
+
+    TweenMax.to(this, 0, opts);
+  };
+
+  $.fn.hold = function(scale){
+    var opts = {
+      boxShadow: "0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)",
+      scale: scale
+    };
+    TweenMax.to(this, 0, opts);
+  };
 
   // Função responsável por "desenhar" um estado de "pego" pro post
   function grabPost(opts) {
@@ -270,7 +269,7 @@
           if (checkSwipe(opts, page_x, page_y, timeout_id) || checkHold(opts)) {
             e.preventDefault();
 
-            movePost($post_container,
+            $post_container.move(
               (page_x-opts.x)/opts.scale,
               (page_y-opts.y)/opts.scale,
               opts.angle*(((page_x-opts.x)/opts.scale)/opts.post_width));
