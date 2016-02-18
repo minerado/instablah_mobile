@@ -5,11 +5,6 @@
 
   // Função responsável por "desenhar" um estado de "pego" pro post
   function grabPost(opts) {
-    // Seleciona elemento a ser escalado
-    var $post = opts.$post_container.find(".post");
-
-    // Define proporção para translado
-    var proportion = 1 - 1/opts.scale;
 
     // Define propriedades para o post, após movimentá-lo
     opts.$post_container
@@ -354,15 +349,35 @@
     };
 
     // Hold Function
-    /* Faz a animação de segurar um elemento */
-    $.fn.hold = function(scale){
-      var opts = {
-        boxShadow: "0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)",
-        scale: scale
-      };
-      TweenMax.to(this, 0, opts);
+    /* Faz a animação de segurar um elemento,
+    recebe como parâmetros uma escala para diminuir,
+    um x e um y do documento */
+    $.fn.hold = function(scale, x, y){
+      var proportion = 1-1/scale,
+          height = this.height(),
+          width = this.width(),
+          y0 = this.offset().top,
+          opts = {
+            boxShadow: "0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)",
+            left:      proportion*(width/2-x),
+            top:       proportion*(height/2+y0-y)
+          };
+      TweenMax.to(this, 0.1, { scale: scale });
+      TweenMax.to(this, 0.25, opts);
 
-      return this;
+      return this.setState("held");
+    };
+
+    $.fn.release = function(){
+      var opts = {
+        boxShadow: "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)",
+        left: 0,
+        top: 0,
+        scale: 1
+      };
+      TweenMax.to(this, 0.1, opts);
+
+      return this.setState("dropped");
     };
 
     // Faz (des)aparecer o botao de share
@@ -400,18 +415,19 @@
     $posts_container.on("touchstart", ".post", function(e){
       var $post = $(this);
 
-      var coordinates = {
+      var coord = {
         x_0:      e.originalEvent.touches[0].pageX,
         y_0_page: e.originalEvent.touches[0].pageY,
         y_0_cli:  e.originalEvent.touches[0].clientY
       };
 
+      
       var timeout_id = setTimeout(function() {
-        $post
-          .hold(hold_scale)
-          .setState("held");
+        $post.hold(hold_scale, coord.x_0, coord.y_0_page);
         $share.toggleShare(true);
       }, 400);
+
+      
 
     });
 
