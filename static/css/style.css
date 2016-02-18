@@ -166,6 +166,11 @@ html{
 
 }/* ##header */
 
+.share-hover{
+  background-color: #6DEA7C !important;
+  transform: translate(-50%, 0) scale(1.2) !important;
+}
+
 #share{
   background-color: #1CA62D;
   border-radius:    50%;
@@ -176,6 +181,8 @@ html{
     z-index: 99999;
   transform:        translate(-50%, 0);
   width:            80px;
+
+  transition: transform .25s, background-color .25s;
   }
   #share-img{
     height:    45px;
@@ -184,6 +191,8 @@ html{
       top:  50%;
     transform: translate(-50%,-50%);
     width:     45px;
+
+    transition
 }
 
 

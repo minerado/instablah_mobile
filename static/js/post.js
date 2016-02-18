@@ -334,14 +334,14 @@
     
     // Move Function
     /* Move e gira um elemento para uma determinada coordenada */
-    $.fn.move = function(x, y, deg){
+    $.fn.move = function(x, y, deg, t){
       var opts = {
         left: x,
         top: y,
         rotation: deg
       };
 
-      TweenMax.to(this, 0, opts);
+      TweenMax.to(this, t, opts);
 
       return this;
     };
@@ -382,7 +382,7 @@
     /* show = true faz botao aparecer */
     $.fn.toggleShare = function(show){
       var opts = {
-        bottom: show ? 15 : -80
+        bottom: show ? 30 : -80
       };
 
       TweenMax.to(this, 0.2, opts);
@@ -397,7 +397,10 @@
 
     // Define estado em que post se encontra (ex: held)
     $.fn.setState = function(state){
-      this.data("state", state);
+      if(this.data("state") !== state){
+        this.data("state", state);
+      }
+      
       return this;
     };
 
@@ -408,12 +411,44 @@
           x = (Math.abs(delta_x) > threshold.x) ? delta_x : 0,
           swipe = y || x;
       if(swipe < 0){
-        return -1;
+        return "swipe-x-e";
       }
       else if(swipe > threshold.x){
-        return 1;
+        return "swipe-x-d";
       }
-      return false;
+      else if(swipe == threshold.x){
+        return "swipe-y";
+      }
+      return "moving";
+    }
+
+    $.fn.changeOpacityX = function(x, t){
+      var opts = {
+        opacity: x
+      };
+      TweenMax.to(this, t, opts);
+    };
+
+    function setBgColor($container, $like, $dislike, coord_0, coord_1){
+      var delta = coord_1.x-coord_0.x,
+          container_width = $container.width(),
+          absolute_delta = Math.min(Math.abs(delta), container_width/2),
+          proportion = absolute_delta/(container_width/2);
+
+      $like_bg.changeOpacityX((delta<0)*proportion, 0);
+      $dislike_bg.changeOpacityX((delta>=0)*proportion, 0);
+    }
+
+    function fingerOn($element, x, y){
+      var coord = {
+        left: $element.position().left,
+        top: $element.position().top,
+        width: $element.width(),
+        height: $element.height()
+      };
+
+      return x >= coord.left && x <= coord.left + coord.width &&
+        y >= coord.top && x <= coord.top + coord.height;
     }
 
     // Variáveis para cachear elementos da DOM
@@ -425,6 +460,7 @@
 
     // Variáveis que serão usadas durante o programa
     var hold_scale = 0.95,
+        timeout_id = 0,
         threshold = {
           x: 30,
           y: 10
@@ -432,7 +468,7 @@
 
     /* Programa */
     /*  */
-    $posts_container.on("touchstart", ".post", function(e){
+    $posts_container.on("touchstart.post", ".post", function(e){
       var $post = $(this);
 
       var coord_0 = {
@@ -443,27 +479,18 @@
 
       var post_pos = {
         left: $post.position().left,
-        top: $post.position().top
+        top:  $post.position().top
       };
 
-      // Variável para identificar se swipe foi realizado
-      var swipe,
-          x_swipe,
-          y_swipe;
-      // Variável para identificar se hold foi realizado
-      var hold;
-
-      $like_container.css("opacity", "0.8");
-      $like_bg.css("opacity", 1);
-      $dislike_bg.css("opacity", 0);
-
+      // Variável que define estado do post
+      var state;
       
-      var timeout_id = setTimeout(function() {
-        if (!swipe) {
+      timeout_id = setTimeout(function() {
+        if (!state) {
           $post.hold(hold_scale, coord_0.x, coord_0.y);
           $share.toggleShare(true);
+          state = "held";
         }
-        hold = !swipe;
       }, 400);
 
       $post.on("touchmove", function(e2){
@@ -474,26 +501,72 @@
           y_cli:  e2.originalEvent.touches[0].clientY
         };
 
-        if(!swipe) swipe = checkSwipe(coord_0, coord_1, threshold);
-        
-        if(swipe){
-          var a = coord_1.x-coord_0.x-30*swipe;
-          $post.move(post_pos.left + coord_1.x-coord_0.x-30*swipe, 0, 0);
-          e2.preventDefault();
+        /* Garante que, se o post for movido antes do timeout acabar,
+        seja impossível do post ser segurado */
+        if(!state){
+          clearTimeout(timeout_id);
+          state = "moving";
+          $post.setState("moving");
         }
 
-        //$post.move(coord_1.x, coord_1.y);
+        if(state === "held"){
+          if (fingerOn($share, coord_1.x, coord_1.y_cli)) {
+            if(!$share.hasClass("share-hover")){
+              $share.addClass("share-hover"); 
+            }
+          } else{
+            if($share.hasClass("share-hover")){
+              $share.removeClass("share-hover");
+            }
+          }
+
+          $post.move(post_pos.left + coord_1.x-coord_0.x,
+                     coord_1.y-coord_0.y,
+                     0,
+                     0);
+          return false;
+        } else if (state=="moving") {
+          state = checkSwipe(coord_0, coord_1, threshold);
+          $post.setState(state);
+          return true;
+        } else if (state==="swipe-y") {
+          return true;
+        } else if (state==="swipe-x-d"){
+          $post.move(post_pos.left + coord_1.x-coord_0.x-threshold.x, 0, 0, 0);
+          setBgColor($like_container, $like_bg, $dislike_bg, coord_0, coord_1);
+          return false;
+        } else if (state==="swipe-x-e"){
+          $post.move(post_pos.left + coord_1.x-coord_0.x+threshold.x, 0, 0, 0);
+          setBgColor($like_container, $like_bg, $dislike_bg, coord_0, coord_1);
+          return false;
+        }
       });
-
-
-
     });
 
     $posts_container.on("touchend", ".post", function(e){
-      var $post = $(this);
+      var $post = $(this),
+          state = $post.getState(),
+          coord_f = {
+            x:      e.originalEvent.changedTouches[0].pageX,
+            y:      e.originalEvent.changedTouches[0].pageY,
+            y_cli:  e.originalEvent.changedTouches[0].clientY
+          };
 
+      // Cancela eventos que ainda estejam ocorrendo ou possam ocorrer
+      clearTimeout(timeout_id);
       $post.off("touchmove");
-    });
 
+      if(state==="held"){
+        $share.removeClass("share-hover");
+        $share.toggleShare();
+        // Se soltar o post em cima do botão de compartilhar
+        if(fingerOn($share, coord_f.x, coord_f.y_cli)){
+          location = $post.find(".share-action").attr("href");
+        }
+        $post.release();
+      } else if (state==="swipe-x-e" || state==="swipe-x-d"){
+
+      }
+    });
   });
 })();
