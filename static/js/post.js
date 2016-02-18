@@ -337,6 +337,8 @@
 
     /* Novo Código */
     /***********************************************************/
+    
+    // Move Function
     /* Move e gira um elemento para uma determinada coordenada */
     $.fn.move = function(x, y, deg){
       var opts = {
@@ -347,6 +349,8 @@
 
       TweenMax.to(this, 0, opts);
     };
+
+    // Hold Function
     /* Faz a animação de segurar um elemento */
     $.fn.hold = function(scale){
       var opts = {
@@ -355,6 +359,26 @@
       };
       TweenMax.to(this, 0, opts);
     };
+
+    var $posts_container = $("#posts-container");
+
+    /*  */
+    $posts_container.on("touchstart", ".post", function(e){
+      var $post = $(this);
+
+      var coordinates = {
+        x_0:      e.originalEvent.touches[0].pageX,
+        y_0_page: e.originalEvent.touches[0].pageY,
+        y_0_cli:  e.originalEvent.touches[0].clientY
+      };
+
+      console.log(coordinates);
+
+      var timeout_id = setTimeout(function() {
+        console.log("eae");
+      }, 400);
+
+    });
 
   });
 })();
