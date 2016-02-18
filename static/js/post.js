@@ -2,26 +2,6 @@
 
   'use strict';
 
-  /*
-    Move e gira o post para uma determinada coordenada
-  */
-  $.fn.move = function(x, y, deg){
-    var opts = {
-      left: x,
-      top: y,
-      rotation: deg
-    };
-
-    TweenMax.to(this, 0, opts);
-  };
-
-  $.fn.hold = function(scale){
-    var opts = {
-      boxShadow: "0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)",
-      scale: scale
-    };
-    TweenMax.to(this, 0, opts);
-  };
 
   // Função responsável por "desenhar" um estado de "pego" pro post
   function grabPost(opts) {
@@ -352,5 +332,29 @@
     var $posts = $(".posts-container");
 
     setMovablePost($posts);
+
+
+
+    /* Novo Código */
+    /***********************************************************/
+    /* Move e gira um elemento para uma determinada coordenada */
+    $.fn.move = function(x, y, deg){
+      var opts = {
+        left: x,
+        top: y,
+        rotation: deg
+      };
+
+      TweenMax.to(this, 0, opts);
+    };
+    /* Faz a animação de segurar um elemento */
+    $.fn.hold = function(scale){
+      var opts = {
+        boxShadow: "0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)",
+        scale: scale
+      };
+      TweenMax.to(this, 0, opts);
+    };
+
   });
 })();
