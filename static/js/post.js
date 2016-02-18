@@ -59,6 +59,8 @@
     return false;
   }
 
+
+
   function checkSwipe(opts, page_x, page_y, timeout_id){
     var delta_x = page_x - opts.x;
     var delta_y = page_y - opts.y;
@@ -326,10 +328,6 @@
 
     var $posts = $(".posts-container");
 
-    setMovablePost($posts);
-
-
-
     /* Novo Código */
     /***********************************************************/
     /* Declarações de funções e variáveis */
@@ -403,32 +401,97 @@
       return this;
     };
 
+    function checkSwipe(coord_0, coord_1, threshold){
+      var delta_x = coord_1.x-coord_0.x,
+          delta_y = coord_1.y-coord_0.y,
+          y = (Math.abs(delta_y) > threshold.y) ? threshold.x : 0,
+          x = (Math.abs(delta_x) > threshold.x) ? delta_x : 0,
+          swipe = y || x;
+      if(swipe < 0){
+        return -1;
+      }
+      else if(swipe > threshold.x){
+        return 1;
+      }
+      return false;
+    }
+
     // Variáveis para cachear elementos da DOM
-    var $posts_container = $("#posts-container");
-    var $share = $("#share");
+    var $posts_container = $("#posts-container"),
+        $share           = $("#share"),
+        $like_container  = $("#like-container"),
+        $like_bg         = $("#like-container-like"),
+        $dislike_bg      = $("#like-container-dislike");
 
     // Variáveis que serão usadas durante o programa
-    var hold_scale = 0.95;
+    var hold_scale = 0.95,
+        threshold = {
+          x: 30,
+          y: 10
+        };
 
     /* Programa */
     /*  */
     $posts_container.on("touchstart", ".post", function(e){
       var $post = $(this);
 
-      var coord = {
-        x_0:      e.originalEvent.touches[0].pageX,
-        y_0_page: e.originalEvent.touches[0].pageY,
-        y_0_cli:  e.originalEvent.touches[0].clientY
+      var coord_0 = {
+        x:      e.originalEvent.touches[0].pageX,
+        y:      e.originalEvent.touches[0].pageY,
+        y_cli:  e.originalEvent.touches[0].clientY
       };
+
+      var post_pos = {
+        left: $post.position().left,
+        top: $post.position().top
+      };
+
+      // Variável para identificar se swipe foi realizado
+      var swipe,
+          x_swipe,
+          y_swipe;
+      // Variável para identificar se hold foi realizado
+      var hold;
+
+      $like_container.css("opacity", "0.8");
+      $like_bg.css("opacity", 1);
+      $dislike_bg.css("opacity", 0);
 
       
       var timeout_id = setTimeout(function() {
-        $post.hold(hold_scale, coord.x_0, coord.y_0_page);
-        $share.toggleShare(true);
+        if (!swipe) {
+          $post.hold(hold_scale, coord_0.x, coord_0.y);
+          $share.toggleShare(true);
+        }
+        hold = !swipe;
       }, 400);
 
-      
+      $post.on("touchmove", function(e2){
 
+        var coord_1 = {
+          x:      e2.originalEvent.touches[0].pageX,
+          y:      e2.originalEvent.touches[0].pageY,
+          y_cli:  e2.originalEvent.touches[0].clientY
+        };
+
+        if(!swipe) swipe = checkSwipe(coord_0, coord_1, threshold);
+        
+        if(swipe){
+          var a = coord_1.x-coord_0.x-30*swipe;
+          $post.move(post_pos.left + coord_1.x-coord_0.x-30*swipe, 0, 0);
+        }
+
+        //$post.move(coord_1.x, coord_1.y);
+      });
+
+
+
+    });
+
+    $posts_container.on("touchend", ".post", function(e){
+      var $post = $(this);
+
+      $post.off("touchmove");
     });
 
   });
