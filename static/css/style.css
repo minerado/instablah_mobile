@@ -231,7 +231,7 @@ html{
 
   .post{
     
-    margin:        0 5px;
+    margin:        15px 5px;
     position:      relative;
     transition:    transform .2s, box-shadow .2s, max-height 2s;
 
