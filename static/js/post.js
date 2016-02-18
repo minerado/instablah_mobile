@@ -5,15 +5,23 @@
   /*
     Move o post para uma determinada coordenada
   */
-  function movePost($element, x, y, deg){
 
+
+  function movePost($element, x, y, deg){
+    var movement = {
+      left: x,
+      top: y,
+      rotation: deg
+    };
+    TweenMax.to($element, 0, movement);
+/*
     $element.css({
       "transform": "translate3d(0,0,0) translate(" +
         x + "px," +
         y + "px) " +
         "rotate(" +
         deg + "deg)"
-    });
+    });*/
   }
 
   // Função responsável por "desenhar" um estado de "pego" pro post
