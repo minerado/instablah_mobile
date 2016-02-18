@@ -2,12 +2,18 @@ import requests
 import requests_cache
 
 from flask import Flask, abort, render_template
+from waitress import serve
 
 
 # Setup
+
 app = Flask(__name__)
+DEBUG = bool(os.environ.get('DEBUG'))
+app.debug = DEBUG
+PORT = 8081
 ENDPOINT = "http://www.instablah.com.br/api/v1"
 requests_cache.install_cache('instablah_api', expire_after=30)
+
 
 # Model
 
@@ -80,5 +86,9 @@ def internal_error(error):
 
 
 if __name__ == "__main__":
-    app.debug = True
-    app.run(host='0.0.0.0')
+    if app.debug:
+        # werkzeug (waitress doesn't reload on change)
+        app.run(port=PORT)
+    else:
+        serve(app, port=PORT)
+    db.close()
