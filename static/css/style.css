@@ -109,6 +109,8 @@ html{
 }
 
 .card-hover{
+  z-index: 4;
+
   -webkit-box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23) !important;
      -moz-box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23) !important;
           box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23) !important;
@@ -256,6 +258,7 @@ html{
     
     margin:        15px 5px;
     position:      relative;
+    transition:    transform .25s, box-shadow .25s;
 
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     -webkit-touch-callout:       none;

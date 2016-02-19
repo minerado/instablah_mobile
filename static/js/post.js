@@ -334,18 +334,13 @@
     
     // Move Function
     /* Move e gira um elemento para uma determinada coordenada */
-    $.fn.move = function(x, y, deg, t){
+    $.fn.move = function(x, y, t){
       var opts = {
         left: x,
-        top: y,
-        rotation: deg
+        top: y
       };
-      /* this.css({
-        transform : "translate(" + x + "px, " + y + "px)"
-      }); */
 
       TweenMax.to(this, t, opts);
-      console.log(x,y);
       return this;
     };
 
@@ -353,33 +348,20 @@
     /* Faz a animação de segurar um elemento,
     recebe como parâmetros uma escala para diminuir,
     um x e um y do documento */
-    $.fn.hold = function(scale, x, y){
-      var proportion = 1-1/scale,
-          height = this.height(),
-          width = this.width(),
-          y0 = this.offset().top,
-          opts = {
-            boxShadow: "0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)",
-            left:      proportion*(width/2-x),
-            top:       proportion*(height/2+y0-y),
-            zIndex:    4
-          };
-      
-      TweenMax.to(this, 0.25, opts);
-      TweenMax.to(this, 0.1, { scale: scale });
-      console.log(x, y);
+    $.fn.toggleHold = function(scale, x, y){
+      var left = (1-1/scale)*(this.width()/2-x),
+          top =  (1-1/scale)*(this.height()/2+this.offset().top-y);
+
+      this.toggleClass("card-hover")
+        .css("transform", "scale(" + scale +
+              ") translate(" + left + "px," + top + "px)");
+
       return this.setState("held");
     };
 
     $.fn.release = function(){
-      var opts = {
-        boxShadow: "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)",
-        left: 0,
-        top: 0,
-        scale: 1
-      };
-      TweenMax.to(this, 0.1, opts);
-
+      var _this = this;
+      _this.move(0,0,0.25).toggleHold(1,0,0);
       return this.setState("dropped");
     };
 
@@ -500,12 +482,12 @@
 
       // Variável que define estado do post
       var state;
-      
       timeout_id = setTimeout(function() {
         if (!state) {
-          $post.hold(hold_scale, coord_0.x, coord_0.y);
+          $post.toggleHold(hold_scale, coord_0.x, coord_0.y);
           toggleShare($share, true);
           state = "held";
+
         }
       }, 400);
 
@@ -535,10 +517,11 @@
             }
           }
 
-          $post.move(post_pos.left + coord_1.x-coord_0.x,
-                     coord_1.y-coord_0.y,
-                     0,
+          $post.move(post_pos.left + (coord_1.x-coord_0.x),
+                     (coord_1.y-coord_0.y),
                      0);
+
+          console.log("y", $post.height());
           return false;
         } else if (state=="moving") {
           state = checkSwipe(coord_0, coord_1, threshold);
@@ -547,11 +530,11 @@
         } else if (state==="swipe-y") {
           return true;
         } else if (state==="swipe-x-d"){
-          $post.move(post_pos.left + coord_1.x-coord_0.x-threshold.x, 0, 0, 0);
+          $post.move(post_pos.left + coord_1.x-coord_0.x-threshold.x, 0, 0);
           setBgColor($like_container, $like_bg, $dislike_bg, coord_0, coord_1);
           return false;
         } else if (state==="swipe-x-e"){
-          $post.move(post_pos.left + coord_1.x-coord_0.x+threshold.x, 0, 0, 0);
+          $post.move(post_pos.left + coord_1.x-coord_0.x+threshold.x, 0, 0);
           setBgColor($like_container, $like_bg, $dislike_bg, coord_0, coord_1);
           return false;
         }
@@ -580,6 +563,8 @@
           $post.find(".share-action")[0].click();
         }
         $post.release();
+
+        return false;
       } else if (state==="swipe-x-e" || state==="swipe-x-d"){
 
       }
