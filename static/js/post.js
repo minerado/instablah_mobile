@@ -340,9 +340,12 @@
         top: y,
         rotation: deg
       };
+      /* this.css({
+        transform : "translate(" + x + "px, " + y + "px)"
+      }); */
 
       TweenMax.to(this, t, opts);
-
+      console.log(x,y);
       return this;
     };
 
@@ -358,11 +361,13 @@
           opts = {
             boxShadow: "0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)",
             left:      proportion*(width/2-x),
-            top:       proportion*(height/2+y0-y)
+            top:       proportion*(height/2+y0-y),
+            zIndex:    4
           };
-      TweenMax.to(this, 0.1, { scale: scale });
+      
       TweenMax.to(this, 0.25, opts);
-
+      TweenMax.to(this, 0.1, { scale: scale });
+      console.log(x, y);
       return this.setState("held");
     };
 
@@ -378,17 +383,23 @@
       return this.setState("dropped");
     };
 
-    // Faz (des)aparecer o botao de share
-    /* show = true faz botao aparecer */
-    $.fn.toggleShare = function(show){
+    function toggleShare($share, show){
       var opts = {
-        bottom: show ? 30 : -80
+        button: {
+          bottom: show ? 30 : -80
+        },
+        text: {
+          top: show ? 40 : -40
+        },
+        text_overlay: {
+          display: show ? "block" : "none",
+          opacity: show ? 1 : 0
+        }
       };
-
-      TweenMax.to(this, 0.2, opts);
-
-      return this;
-    };
+      TweenMax.to($share.button, 0.25, opts.button);
+      TweenMax.to($share.text, 0.25, opts.text);
+      TweenMax.to($share.text_overlay, 0.25, opts.text_overlay);
+    }
 
     // Retorna o estado em que o post se encontra (ex: held)
     $.fn.getState = function(){
@@ -435,8 +446,8 @@
           absolute_delta = Math.min(Math.abs(delta), container_width/2),
           proportion = absolute_delta/(container_width/2);
 
-      $like_bg.changeOpacityX((delta<0)*proportion, 0);
-      $dislike_bg.changeOpacityX((delta>=0)*proportion, 0);
+      $dislike_bg.changeOpacityX((delta<0)*proportion, 0);
+      $like_bg.changeOpacityX((delta>=0)*proportion, 0);
     }
 
     function fingerOn($element, x, y){
@@ -453,10 +464,15 @@
 
     // Variáveis para cachear elementos da DOM
     var $posts_container = $("#posts-container"),
-        $share           = $("#share"),
         $like_container  = $("#like-container"),
         $like_bg         = $("#like-container-like"),
         $dislike_bg      = $("#like-container-dislike");
+
+    var $share = {
+      button: $("#share-button"),
+      text: $("#share-text"),
+      text_overlay: $("#share-text-overlay")
+    };
 
     // Variáveis que serão usadas durante o programa
     var hold_scale = 0.95,
@@ -488,13 +504,12 @@
       timeout_id = setTimeout(function() {
         if (!state) {
           $post.hold(hold_scale, coord_0.x, coord_0.y);
-          $share.toggleShare(true);
+          toggleShare($share, true);
           state = "held";
         }
       }, 400);
 
       $post.on("touchmove", function(e2){
-
         var coord_1 = {
           x:      e2.originalEvent.touches[0].pageX,
           y:      e2.originalEvent.touches[0].pageY,
@@ -510,13 +525,13 @@
         }
 
         if(state === "held"){
-          if (fingerOn($share, coord_1.x, coord_1.y_cli)) {
-            if(!$share.hasClass("share-hover")){
-              $share.addClass("share-hover"); 
+          if (fingerOn($share.button, coord_1.x, coord_1.y_cli)) {
+            if(!$share.button.hasClass("share-hover")){
+              $share.button.addClass("share-hover"); 
             }
           } else{
-            if($share.hasClass("share-hover")){
-              $share.removeClass("share-hover");
+            if($share.button.hasClass("share-hover")){
+              $share.button.removeClass("share-hover");
             }
           }
 
@@ -557,11 +572,12 @@
       $post.off("touchmove");
 
       if(state==="held"){
-        $share.removeClass("share-hover");
-        $share.toggleShare();
+        $share.button.removeClass("share-hover");
+        toggleShare($share, false);
         // Se soltar o post em cima do botão de compartilhar
-        if(fingerOn($share, coord_f.x, coord_f.y_cli)){
-          location = $post.find(".share-action").attr("href");
+        if(fingerOn($share.button, coord_f.x, coord_f.y_cli)){
+          //location = $post.find(".share-action").attr("href");
+          $post.find(".share-action")[0].click();
         }
         $post.release();
       } else if (state==="swipe-x-e" || state==="swipe-x-d"){
