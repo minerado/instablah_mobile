@@ -65,6 +65,10 @@ html{
   position: relative;
 }
 
+img{
+  pointer-events: none;
+}
+
 *, *:after, *:before {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -317,6 +321,10 @@ html{
         width: 100vw;
         }
 
+        .post-img-container-anchor{
+          width: 100%;
+        }
+
         .post-img{
           display: block;
           width: 100%;
@@ -357,13 +365,14 @@ html{
       } /* #.post-link-anchor */
 
       .post-link-container{
-        border-radius: 2px;
-        color:         white;
-        height:        250px;
-        overflow:      hidden;
-        padding:       15px;
-        position:      relative;
-        width:         100vw;
+        border-radius:  2px;
+        color:          white;
+        height:         250px;
+        overflow:       hidden;
+        padding:        15px;
+        pointer-events: none;
+        position:       relative;
+        width:          100vw;
         }
         .post-link-img{
           background-size: cover;

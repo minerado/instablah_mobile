@@ -339,7 +339,7 @@
         left: x,
         top: y
       };
-
+      
       TweenMax.to(this, t, opts);
       return this;
     };
@@ -459,6 +459,7 @@
     // Variáveis que serão usadas durante o programa
     var hold_scale = 0.95,
         timeout_id = 0,
+        anchor = false,
         threshold = {
           x: 30,
           y: 10
@@ -479,6 +480,9 @@
         left: $post.position().left,
         top:  $post.position().top
       };
+
+      var $target = $(e.target);
+      anchor = $target.is("a") ? $target : false;
 
       // Variável que define estado do post
       var state;
@@ -521,7 +525,6 @@
                      (coord_1.y-coord_0.y),
                      0);
 
-          console.log("y", $post.height());
           return false;
         } else if (state=="moving") {
           state = checkSwipe(coord_0, coord_1, threshold);
@@ -562,12 +565,22 @@
           //location = $post.find(".share-action").attr("href");
           $post.find(".share-action")[0].click();
         }
+        anchor = false;
         $post.release();
-
-        return false;
       } else if (state==="swipe-x-e" || state==="swipe-x-d"){
-
+        anchor = false;
+        $post.release();
+      } else if (state==="swipe-y" || state==="moving"){
+      } else{
+        if(anchor){
+          window.location.href = anchor.data("url");
+        }
       }
+      console.log(state);
+      state = false;
+      anchor = false;
+      
+      return false;
     });
   });
 })();
