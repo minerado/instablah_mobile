@@ -316,6 +316,7 @@ html{
           width: 100%;
         }
         .post-video-layer{
+          display: none;
           height: 100%;
           position: absolute;
             left: 0;
