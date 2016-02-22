@@ -29,7 +29,7 @@
       </div>
       <div class="post-related blue">
         {% for related in post.relateds %}
-            <span>#{{ related.name }}</span>
+            <a href="/{{related.slug}}" class="related truncate">#{{ related.name }}</a>
         {% endfor %}
       </div>
     </div>
