@@ -12,7 +12,7 @@ from waitress import serve
 app = Flask(__name__)
 DEBUG = bool(os.environ.get('DEBUG'))
 app.debug = DEBUG
-PORT = 8081
+PORT = 3001
 ENDPOINT = "http://www.instablah.com.br/api/v1"
 requests_cache.install_cache('instablah_api', expire_after=30)
 
