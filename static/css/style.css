@@ -304,20 +304,14 @@ html{
       } /* #.post-img-container */
 
       .post-video-container{
-        height: 0;
-        padding-bottom: 56.25%; /* 16:9 */
-        padding-top: 25px;
-        position: relative;
+        background-color: black;
+        position:         relative;
           left: -5px;
-        width: 100vw;
+        width:            100vw;
         }
 
         .post-video{
-          height: 100%;
-          position: absolute;
-            left: 0;
-            top: 0;
-          width: 100%;
+          
         }
         .post-video-layer{
           display: none;
@@ -408,7 +402,7 @@ html{
         .post-text-title{
           font-size:   22px;
             font-weight: 600;
-          padding:     20px 15px 0px;
+          padding:     20px 15px 10px;
         }
         .post-text-body{
           font-size: 14px;
