@@ -1,7 +1,12 @@
 {% extends "partials/post/_post.html" %}
 
+{% block post_title %}
+    {% if post.payload.title %}
+        <div class="post-text-title">{{ post.payload.title }}</div>
+    {% endif %}
+{% endblock %}
+
 {% block post_content %}
-    {{ post }}
     <div class="post-video-container card-2">
         <iframe class="post-video" src="https://www.youtube.com/embed/{{feature.url.split('v=')[1]}}" frameborder="0" allowfullscreen></iframe>
         <div class="post-video-layer"></div>

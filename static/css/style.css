@@ -293,7 +293,9 @@ html{
       }
 
       .post-img-container{
-
+        position: relative;
+          left: -5px;
+        width: 100vw;
         }
 
         .post-img{

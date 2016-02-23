@@ -4,9 +4,8 @@
     <div class="post card">
         <div class="post-content">
 
-            {% if post.title %}
-                <div class="post-text-title">{{ post.title }}</div>
-            {% endif %}
+            {% block post_title %}
+            {% endblock %}
 
             <div class="post-header">
                 <div class="post-user-img-container">

@@ -1,5 +1,11 @@
 {% extends "partials/post/_post.html" %}
 
+{% block post_title %}
+    {% if post.title %}
+        <div class="post-text-title">{{ post.title }}</div>
+    {% endif %}
+{% endblock %}
+
 {% block post_content %}
     <div class="post-img-container">
         <img class="post-img card-2" src="{{ feature.image.original }}">
