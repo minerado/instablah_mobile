@@ -236,6 +236,7 @@ html{
 
   .post{
     
+    background-color: white;
     font-size:     14px;
     margin:        0 5px;
     position:      relative;
@@ -250,7 +251,6 @@ html{
       max-height:       60px;
       overflow:         hidden;
       padding:          15px;
-      background-color: white;
       }
 
       .post-user-img-container{
@@ -399,15 +399,14 @@ html{
       } /* #.post-link-container */
 
       .post-text-container{
-        background-color: white;
         overflow: hidden;
         padding: 0 15px;
         word-break: break-word;
         }
         .post-text-title{
-          font-size:   25px;
-          line-height: 30px;
-          padding-top: 15px;
+          font-size:   22px;
+            font-weight: 600;
+          padding:     20px 15px 0px;
         }
         .post-text-body{
           font-size: 14px;
@@ -416,7 +415,6 @@ html{
     }/* #.post-text-container #.post-content */
     
     .related-container{
-      background-color: white;
       font-size:        11px;
         font-weight:    bold;
       overflow:         hidden;

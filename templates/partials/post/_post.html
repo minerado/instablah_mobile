@@ -2,29 +2,30 @@
 
 <div class="post-container">
     <div class="post card">
-        <div class="post-header">
-            <div class="post-user-img-container">
-                <img class="post-user-img" src="{{ post.persona.image.small }}">
-            </div>
-            <div class="post-credentials">
-                <div class="post-username blue truncate">{{ post.persona.name }}</div>
-                <div class="post-hashtag truncate">#{{ hashtag.name }}</div>
-            </div>
-            <div class="post-share-container">
-                {{ render_whatsapp(hashtag, post) }}
-            </div>
-        </div>
         <div class="post-content">
 
+            {% if post.title %}
+                <div class="post-text-title">{{ post.title }}</div>
+            {% endif %}
+
+            <div class="post-header">
+                <div class="post-user-img-container">
+                    <img class="post-user-img" src="{{ post.persona.image.small }}">
+                </div>
+                <div class="post-credentials">
+                    <div class="post-username blue truncate">{{ post.persona.name }}</div>
+                    <div class="post-hashtag truncate">#{{ hashtag.name }}</div>
+                </div>
+                <div class="post-share-container">
+                    {{ render_whatsapp(hashtag, post) }}
+                </div>
+            </div>
+            
             {% block post_content %}
             {% endblock %}
 
             {% if (post.title or post.text) and not post.richcontent %}
                 <div class="post-text-container">
-                    {% if post.title %}
-                        <div class="post-text-title">{{ post.title }}</div>
-                    {% endif %}
-
                     {% if post.text  %}
                         <div class="post-text-body">{{ post.text | urlize }}</div>  
                     {% endif %}
@@ -32,6 +33,9 @@
             {% endif %}
 
         </div>
+
+        
+
 
         <div class="related-container blue">
             {% for related in post.relateds %}
