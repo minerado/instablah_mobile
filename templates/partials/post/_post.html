@@ -23,11 +23,9 @@
             {% block post_content %}
             {% endblock %}
 
-            {% if (post.title or post.text) and not post.richcontent %}
+            {% if post.text and not post.richcontent %}
                 <div class="post-text-container">
-                    {% if post.text  %}
-                        <div class="post-text-body">{{ post.text | urlize }}</div>  
-                    {% endif %}
+                    <div class="post-text-body">{{ post.text | urlize }}</div>  
                 </div>
             {% endif %}
 
