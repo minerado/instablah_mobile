@@ -28,6 +28,7 @@ footer, header, hgroup, menu, nav, section {
 body {
   background-color: rgba(105, 105, 105, 0.06);
   line-height: 1;
+  -webkit-text-size-adjust: none;
 }
 ol, ul {
   list-style: none;
@@ -235,6 +236,7 @@ html{
 
   .post{
     
+    font-size:     14px;
     margin:        0 5px;
     position:      relative;
     transition:    transform .2s, box-shadow .2s, max-height 2s;
@@ -408,6 +410,7 @@ html{
           padding-top: 15px;
         }
         .post-text-body{
+          font-size: 14px;
           line-height: 2;
           padding-top: 15px;
     }/* #.post-text-container #.post-content */
