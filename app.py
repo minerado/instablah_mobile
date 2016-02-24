@@ -78,7 +78,7 @@ def show_post_richcontent(hashtag_slug, post_slug, post_id):
 @app.errorhandler(404)
 def not_found(error):
     app.logger.error('Server Error: %s', (error))
-    return render_template('400.html'), 400
+    return show_hashtag(slug="404-Not-Found"), 400
 
 
 @app.errorhandler(500)
