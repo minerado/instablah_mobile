@@ -1,8 +1,10 @@
 {% extends "base.html" %}
 
+{% block title%}{{ hashtag.name }} - {% endblock %}
+
 {% block header %}
     <div id="header" class="card">
-      <span id="logo"><img id="logo-img" src="/static/img/insta.png">Instablah</span>
+      <a href="/"><span id="logo"><img id="logo-img" src="/static/img/insta.png">Instablah</span></a>
       <span id="header-hashtag" class="truncate">#{{hashtag.name}}</span>
     </div>
     <div id="feature-header" class="off-feature">
