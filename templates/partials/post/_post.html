@@ -2,22 +2,25 @@
 
 <div class="post-container">
     <div class="post card">
-        {% block post_title %}
-        {% endblock %}
         <div class="post-header">
             <div class="post-user-img-container">
                 <img class="post-user-img" src="{{ post.persona.image.small }}">
             </div>
             <div class="post-credentials">
-                <div class="post-username truncate">por <span class="blue">{{ post.persona.name }}</span></div>
+                <div class="post-username truncate"><span class="blue">{{ post.persona.name }}</span></div>
             </div>
             <div class="post-share-container">
                 {{ render_whatsapp(hashtag, post) }}
             </div>
         </div>
+        
         <div class="post-content">
 
+
             {% block post_content %}
+            {% endblock %}
+
+            {% block post_title %}
             {% endblock %}
 
             {% if post.text and not post.richcontent %}
@@ -28,11 +31,11 @@
         </div>       
 
 
-        <!-- <div class="related-container blue">
+        <div class="related-container blue">
             {% for related in post.relateds %}
-                <a href="/{{related.slug}}" class="related truncate">#{{ related.name }}</a>
+                <a href="/{{related.slug}}" class="related truncate card">#{{ related.name }}</a>
             {% endfor %}
-        </div> -->
+        </div>
     </div>    
 </div>
 
