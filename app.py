@@ -1,4 +1,5 @@
 import os
+import re
 
 import requests
 import requests_cache
@@ -56,6 +57,8 @@ def index():
 def show_hashtag(slug):
     hashtag = get_hashtag_meta(slug)
     posts   = get_hashtag_posts(slug)
+    for post in posts['models']:
+        post['text'] = re.sub(r'^https?:\/\/.*[\r\n]*', '', post['text'], flags=re.MULTILINE)
     return render_template('hashtag.html', hashtag=hashtag, posts=posts)
 
 
