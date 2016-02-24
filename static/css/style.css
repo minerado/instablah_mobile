@@ -71,6 +71,13 @@ html{
   box-sizing: border-box;
 }
 /* OBJECT ORIENTED CSS */
+.centered{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .blue{
   color: #4676B6;
 }
@@ -303,15 +310,19 @@ html{
           width: 100%;
       } /* #.post-img-container */
 
+      .post-video-container > iframe{
+        width: 100%;
+      }
       .post-video-container{
         background-color: black;
+        padding:          10px 0;
         position:         relative;
           left: -5px;
         width:            100vw;
         }
-
-        .post-video{
-          
+        .scraper-jquery{
+          position: relative;
+          min-height: 180px;
         }
         .post-video-layer{
           display: none;
@@ -402,11 +413,12 @@ html{
         .post-text-title{
           font-size:   22px;
             font-weight: 600;
+          line-height: 1.5;
           padding:     20px 15px 10px;
         }
         .post-text-body{
           font-size: 14px;
-          line-height: 2;
+          line-height: 1.75;
           padding-top: 15px;
     }/* #.post-text-container #.post-content */
     

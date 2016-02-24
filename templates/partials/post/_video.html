@@ -8,10 +8,9 @@
 
 {% block post_content %}
     <div class="post-video-container card-2 clearfix">
-        <div class="scraper-jquery" href="{{feature.url}}"></div>
+        <div class="scraper-jquery" href="{{feature.url}}">
+          <img class="centered" src="{{ url_for('static', filename='img/l.gif') }}" width=30>
+        </div>
         <div class="post-video-layer"></div>
     </div>
 {% endblock %}
-
-
-{{feature.url.split('v=')[1]}}
