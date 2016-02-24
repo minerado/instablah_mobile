@@ -2,7 +2,7 @@
     
     {% set share_text = post.title or post.text|truncate(140) %}
 
-    {% set whatsapp_link = share_text + " " + request.host_url + url_for('show_post' , hashtag_slug=hashtag.slug, post_slug=post.slug, post_id=post.id) %}
+    {% set whatsapp_link = share_text + " " + request.host_url.strip("/") + url_for('show_post' , hashtag_slug=hashtag.slug, post_slug=post.slug, post_id=post.id) %}
 
     <a href="whatsapp://send?text={{ whatsapp_link|urlencode }}">
         <img class="post-share-button" src="{{ url_for('static', filename='img/whats.png') }}">
