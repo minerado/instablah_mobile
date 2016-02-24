@@ -73,7 +73,7 @@ html{
 /* OBJECT ORIENTED CSS */
 
 .feature{
-  padding-top: 16px;
+
 }
 .full-screen-feature{
   transform: translate(-24px, 0);
@@ -287,14 +287,14 @@ html{
 
         .post-user-img{
           border-radius: 50%;
-          height: 20px;
+          height: 25px;
       }
 
       .post-credentials{
           float:       left;
           max-height:  28px;
           width: 70%;
-          transform: translate(8px,5px);
+          transform: translate(8px,7px);
 
         }
 
@@ -312,12 +312,11 @@ html{
         }
 
         .post-share-button{
-          height: 20px;
-          width: 20px;
+          height: 25px;
     } /* #.post-header */
 
     .post-content{
-      padding: 0 16px;
+      padding: 0 16px 16px;
       }
 
       .post-img-container{
@@ -335,7 +334,6 @@ html{
       }
       .post-video-container{
         background-color: black;
-        margin-top:       16px;
         padding:          10px 0;
         position:         relative;
         width:            100vw;
@@ -435,7 +433,7 @@ html{
         .post-text-title{
           font-size: 1.5em;
             font-family: "Roboto";
-          padding-top: 16px;
+          padding: 16px 16px 0;
           line-height: 1.2;
         }
         .post-text-body{

@@ -2,19 +2,8 @@
 
 <div class="post-container">
     <div class="post card">
-        <div class="post-content">
-            {% block post_title %}
-            {% endblock %}
-            
-            {% block post_content %}
-            {% endblock %}
-
-            {% if post.text and not post.richcontent %}
-                <div class="post-text-container">
-                    <div class="post-text-body">{{ post.text | urlize}}</div>  
-                </div>
-            {% endif %}
-        </div>
+        {% block post_title %}
+        {% endblock %}
         <div class="post-header">
             <div class="post-user-img-container">
                 <img class="post-user-img" src="{{ post.persona.image.small }}">
@@ -26,8 +15,17 @@
                 {{ render_whatsapp(hashtag, post) }}
             </div>
         </div>
+        <div class="post-content">
 
-        
+            {% block post_content %}
+            {% endblock %}
+
+            {% if post.text and not post.richcontent %}
+                <div class="post-text-container">
+                    <div class="post-text-body">{{ post.text | urlize}}</div>  
+                </div>
+            {% endif %}
+        </div>       
 
 
         <!-- <div class="related-container blue">
