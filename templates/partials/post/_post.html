@@ -6,6 +6,15 @@
 
             {% block post_title %}
             {% endblock %}
+            
+            {% block post_content %}
+            {% endblock %}
+
+            {% if post.text and not post.richcontent %}
+                <div class="post-text-container">
+                    <div class="post-text-body">{{ post.text | urlize }}</div>  
+                </div>
+            {% endif %}
 
             <div class="post-header">
                 <div class="post-user-img-container">
@@ -19,26 +28,17 @@
                     {{ render_whatsapp(hashtag, post) }}
                 </div>
             </div>
-            
-            {% block post_content %}
-            {% endblock %}
-
-            {% if post.text and not post.richcontent %}
-                <div class="post-text-container">
-                    <div class="post-text-body">{{ post.text | urlize }}</div>  
-                </div>
-            {% endif %}
 
         </div>
 
         
 
 
-        <div class="related-container blue">
+        <!-- <div class="related-container blue">
             {% for related in post.relateds %}
                 <a href="/{{related.slug}}" class="related truncate">#{{ related.name }}</a>
             {% endfor %}
-        </div>
+        </div> -->
     </div>    
 </div>
 
