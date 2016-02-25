@@ -420,9 +420,10 @@ html{
           -webkit-line-clamp: 3;
         }
         .post-link-click{
-          font-size: 15px;
-          font-weight: bold;
-          position: absolute;
+          font-size:   15px;
+            font-family: "Roboto";
+            font-weight: 400;
+          position:    absolute;
             bottom: 0px;
       } /* #.post-link-container */
 
