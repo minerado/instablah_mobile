@@ -25,6 +25,9 @@
 <script type="text/javascript">
   $(document).ready(function(){
     amplitude.logEvent("teste");
+    {% if config.DEBUG==1 %}
+      alert("oi");
+    {% endif %}
 
     $(".scraper-jquery").scraper({
         // Optional
