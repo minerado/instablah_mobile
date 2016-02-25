@@ -21,11 +21,14 @@ requests_cache.install_cache('instablah_api', expire_after=30)
 # Model
 
 def get_item_from_url(url):
-    res = requests.get(url)
-    if res.status_code == 400:
+    res = requests.get(url).json()
+
+    # API doesn't return proper http status codes, so we gotta check for
+    # message property for non-existent items
+    if res.get('message'):
         abort(404)
 
-    return res.json()
+    return res
 
 
 def get_hashtag_meta(slug):
