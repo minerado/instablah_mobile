@@ -30,7 +30,12 @@ def update_requirements():
             run('pip install -r requirements.txt')
 
 
+def run_tests():
+    local("nosetests")
+
+
 def deploy():
+    run_tests()
     pull_latest_code()
     delete_pyc()
     update_requirements()
