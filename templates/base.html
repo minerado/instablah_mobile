@@ -22,12 +22,10 @@
 <script src="{{ url_for('static', filename='js/vendor/amplitude.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/vendor/jquery.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/vendor/scrapper.js') }}"></script>
+<script src="{{ url_for('static', filename='js/events.js') }}"></script>
 <script type="text/javascript">
   $(document).ready(function(){
     amplitude.logEvent("teste");
-    {% if config.DEBUG==1 %}
-      alert("oi");
-    {% endif %}
 
     $(".scraper-jquery").scraper({
         // Optional
