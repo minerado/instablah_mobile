@@ -17,7 +17,7 @@
         <div id="bg-1"></div>
         <div id="bg-2"></div>
     </div>
-    <div class="posts-container">
+    <div class="posts-container" data-hashtag-slug="{{hashtag.slug}}">
         {% for post in posts.models %}
 
             {% set feature = post.payload %}

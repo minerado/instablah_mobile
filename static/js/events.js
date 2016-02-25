@@ -1,5 +1,12 @@
 (function(){
   $(document).ready(function(){
-    amplitude.logEvent("pageview");
-  }); 
+
+    function page_view(slug){
+
+    }
+    var $posts_container = $(".posts-container");
+
+    amplitude.logEvent("pageview", { slug: $posts_container.data("hashtag-slug") });
+
+  });
 })();

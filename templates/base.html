@@ -22,9 +22,10 @@
 <script src="{{ url_for('static', filename='js/vendor/amplitude.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/vendor/jquery.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/vendor/scrapper.js') }}"></script>
-{% if config.DEBUG != 1%}
-<script src="{{ url_for('static', filename='js/events.js') }}"></script>
+{% if not config.DEBUG %}
+  <script src="{{ url_for('static', filename='js/events.js') }}"></script>
 {% endif %}
+
 <script type="text/javascript">
   $(document).ready(function(){
     
