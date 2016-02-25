@@ -10,6 +10,6 @@
     // Properties
     var hashtag_slug = $posts_container.data("hashtag-slug");
     
-    pageview(hashtag_slug);
+    page_view(hashtag_slug);
   });
 })();
