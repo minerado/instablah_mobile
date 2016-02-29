@@ -25,8 +25,6 @@
                 {% set post_type = 'image' %}
             {% elif feature.is_video %}
                 {% set post_type = 'video' %}
-            {% else %}
-                {% set post_type = 'impossible' %}
             {% endif %}
       
             {% include "partials/post/_%s.html" % post_type %}
