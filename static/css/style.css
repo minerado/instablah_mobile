@@ -187,33 +187,6 @@ html{
 
 }/* ##header */
 
-#feature-header{
-  background-color: #4676B6;
-  color:            white;
-  display:          none;
-  font-size:        19px;
-    font-weight:    bold;
-  height:           78px;
-  padding:          30px 15px;
-  position:         fixed;
-    left: 0;
-    top:  0;
-  text-align:       center;
-  width:            100%;
-  z-index:          10000;
-
-  -webkit-transition: background-color .25s;
-     -moz-transition: background-color .25s;
-          transition: background-color .25s;
-  }
-
-  .on-feature{
-    background-color: #4DB972 !important;
-  }
-
-  .off-feature{
-  }
-
 #actions-container{
   height:   100vh;
   opacity: 0.8;
