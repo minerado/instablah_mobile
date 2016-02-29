@@ -16,7 +16,6 @@
         
         <div class="post-content">
 
-
             {% block post_content %}
             {% endblock %}
 
@@ -25,16 +24,18 @@
 
             {% if post.text and not post.richcontent %}
                 <div class="post-text-container">
-                    <div class="post-text-body">{{ post.text | urlize}}</div>  
+                    <div class="post-text-body">{{ post.text | urlize }}</div>  
                 </div>
             {% endif %}
         </div>       
 
-        <div class="related-container blue">
-            {% for related in post.relateds %}
-                <a href="/{{related.slug}}" class="related truncate card">#{{ related.name }}</a>
-            {% endfor %}
-        </div>
+        {% if post.relateds %}
+            <div class="related-container blue">
+                {% for related in post.relateds %}
+                    <a href="/{{related.slug}}" class="related truncate card">#{{ related.name }}</a>
+                {% endfor %}
+            </div>
+        {% endif %}
     </div>    
 </div>
 
