@@ -2,15 +2,6 @@
 
 {% block title %} Post - {% endblock %}
 
-{% block header %}
-    <div id="header" class="card">
-      <a href="/"><span id="logo"><img id="logo-img" src="/static/img/insta.png">Instablah</span></a>
-    </div>
-    <div id="feature-header" class="off-feature">
-      <span id="feature-slogan-drag">Arraste aqui para ver depois!</span>
-    </div>
-{% endblock %}
-
 {% block main %}
     <div class="posts-container">
         {% set feature = post.payload %}
