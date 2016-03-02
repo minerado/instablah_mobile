@@ -27,7 +27,7 @@
                 {% set post_type = 'video' %}
             {% endif %}
       
-            {% include "partials/post/_%s.html" % post_type %}
+            {% include "post/%s.html" % post_type %}
 
         {% endfor %}
     </div>

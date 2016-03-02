@@ -1,4 +1,4 @@
-{% extends "partials/post/_post.html" %}
+{% extends "post/base.html" %}
 
 {% block post_content %}
     <a href="{{ url_for('show_post_richcontent', hashtag_slug=hashtag.slug, post_slug=post.slug, post_id=post.id) }}" class="post-link-anchor full-screen-feature clearfix feature">
