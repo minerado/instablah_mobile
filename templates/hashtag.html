@@ -13,11 +13,11 @@
         {% for post in posts.models %}
 
             {% set feature = post.payload %}
-            {% set richcontent = post.richcontent %}
+            {% set short_post = True %}
 
-            {% if not feature and not richcontent %}
+            {% if not feature and not post.richcontent %}
                 {% set post_type = 'text' %}
-            {% elif not feature and richcontent %}
+            {% elif not feature and post.richcontent %}
                 {% set post_type = 'rich' %}
             {% elif not feature.is_image and not feature.is_video %}
                 {% set post_type = 'link' %}

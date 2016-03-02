@@ -7,8 +7,15 @@
             <div class="post-link-overlay"></div>
             <div class="post-link-text-container clearfix">
                 <div class="post-link-title">{{ post.title }}</div>
-                <div class="post-link-click">(Clique para ver link...)</div>
+                {% if short_post %}
+                    <div class="post-link-click">(Clique para ver link...)</div>
+                {% endif %}
             </div>
         </div>
+        {% if not short_post %}
+        <div class="post-text-container">
+            <div class="post-text-body">{{ post.html|safe }}</div>
+        </div>
+        {% endif %}
     </a>
 {% endblock %}
