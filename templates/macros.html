@@ -1,3 +1,10 @@
+{# ------------------------------------------------------- #}
+
+{# All macros go here #}
+
+{# ------------------------------------------------------- #}
+
+
 {% macro render_whatsapp(hashtag, post) %}
     
     {% set share_text = post.title or post.text|truncate(140) %}
