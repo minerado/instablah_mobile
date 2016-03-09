@@ -9,26 +9,53 @@
 
 {% extends "base.html"%}
 
+{% from 'macros.html' import render_whatsapp %}
+
 {% block title %}
     Instablah
 {% endblock %}
 
 {% block main %}
-    <div class="posts-container">
-        {% set feature = post.payload %}
 
-        {% if not feature and not post.richcontent %}
-            {% set post_type = 'text' %}
-        {% elif not feature and post.richcontent %}
-            {% set post_type = 'rich' %}
-        {% elif not feature.is_image and not feature.is_video %}
-            {% set post_type = 'link' %}
-        {% elif feature.is_image %}
-            {% set post_type = 'image' %}
-        {% elif feature.is_video %}
-            {% set post_type = 'video' %}
-        {% endif %}
-        
-        {% include "post/%s.html" % post_type %}
+    <div class="posts-container">
+        <div class="post-container">
+            <div class="post card" data-slug="{{ post.slug }}" data-type="{{ post_type }}">
+                <div class="post-header">
+                    <div class="post-user-img-container">
+                        <img class="post-user-img" src="{{ post.persona.image.small }}">
+                    </div>
+                    <div class="post-credentials">
+                        <div class="post-username truncate"><span class="blue">{{ post.persona.name }}</span></div>
+                    </div>
+                    <div class="post-share-container">
+                        {{ render_whatsapp(hashtag, post) }}
+                    </div>
+                </div>
+                
+                <div class="post-content">
+
+                    <div class="post-link-container full-screen-feature card-2">
+                        <div class="post-link-img" style="background-image: url('{{ post.cover }}')"></div>
+                        <div class="post-link-overlay"></div>
+                        <div class="post-link-text-container clearfix">
+                            <div class="post-link-title">{{ post.title }}</div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="post-text-container">
+                        <div class="post-text-body">{{ post.html|safe }}</div>
+                    </div>
+
+                </div>       
+
+                {% if post.relateds %}
+                    <div class="related-container blue">
+                        {% for related in post.relateds %}
+                            <a href="{{ related.slug }}" data-slug="{{ related.slug }}" class="related truncate card">#{{ related.name }}</a>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>    
+        </div>
     </div>
 {% endblock %}

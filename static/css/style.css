@@ -399,6 +399,9 @@ html{
           position:    absolute;
             bottom: 0px;
       } /* #.post-link-container */
+      .post-text-container img {
+        width: 100%;
+      }
 
       .post-text-container{
         word-break: break-word;
