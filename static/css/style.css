@@ -339,7 +339,7 @@ html{
         overflow:      hidden;
         padding:       15px;
         position:      relative;
-        width:         100vw;
+        /*width:         100vw;*/
         }
         .post-link-img{
           background-size: cover;
