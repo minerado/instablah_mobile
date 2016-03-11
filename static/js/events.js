@@ -6,6 +6,7 @@ $(document).ready(function() {
 
     /* Function declaration */
     function page_view(slug, type) {
+        alert(page_slug);
         amplitude.logEvent('pageview', {
             slug: slug,
             type: type
