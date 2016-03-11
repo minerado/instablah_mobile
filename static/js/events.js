@@ -1,48 +1,48 @@
-(function() {
-    $(document).ready(function() {
-        /* Variable declaration */
-        var $posts_container = $('.posts-container');
-        var hashtag_slug = $posts_container.data('hashtag-slug');
+$(document).ready(function() {
+    /* Variable declaration */
+    var $posts_container = $('.posts-container');
+    var page_slug = $posts_container.data('slug') || 'undefined';
+    var page_type = $posts_container.data('type') || 'undefined';
 
-        /* Function declaration */
-        function page_view(slug) {
-            amplitude.logEvent('pageview', {
-                slug: slug
-            });
-        }
-
-        function share(hashtag_slug, post_slug, post_type) {
-            amplitude.logEvent('share', {
-                hashtag:   hashtag_slug,
-                post:      post_slug,
-                post_type: post_type
-            });
-        }
-
-        function click_related(hashtag_slug, post_slug, post_type, related_slug) {
-            amplitude.logEvent('clickrelated', {
-                hashtag:   hashtag_slug,
-                post:      post_slug,
-                post_type: post_type,
-                related:   related_slug
-            });
-        }
-
-        
-
-        /* Events */
-        $posts_container.on('touchstart', '.post-share-button', function(){
-            var $post = $(this).closest('.post');
-            share(hashtag_slug, $post.data('slug'), $post.data('type'));
+    /* Function declaration */
+    function page_view(slug, type) {
+        amplitude.logEvent('pageview', {
+            slug: slug,
+            type: type
         });
+    }
 
-        $posts_container.on('touchstart', '.related', function(){
-            var $post = $(this).closest('.post');
-            click_related(hashtag_slug, $post.data('slug'), $post.data('type'), $(this).data('slug'));
+    function share(page_slug, post_slug, post_type) {
+        amplitude.logEvent('share', {
+            hashtag:   page_slug,
+            post:      post_slug,
+            post_type: post_type
         });
+    }
 
-        /* Main */
+    function click_related(page_slug, post_slug, post_type, related_slug) {
+        amplitude.logEvent('clickrelated', {
+            hashtag:   page_slug,
+            post:      post_slug,
+            post_type: post_type,
+            related:   related_slug
+        });
+    }
 
-        page_view(hashtag_slug);
+    
+
+    /* Events */
+    $posts_container.on('click', '.post-share-button', function(){
+        var $post = $(this).closest('.post');
+        share(page_slug, $post.data('slug'), $post.data('type'));
     });
-})();
+
+    $posts_container.on('click', '.related', function(){
+        var $post = $(this).closest('.post');
+        click_related(page_slug, $post.data('slug'), $post.data('type'), $(this).data('slug'));
+    });
+
+    /* Main */
+
+    page_view(page_slug, page_type);
+});

@@ -17,7 +17,7 @@
 
 {% block main %}
 
-    <div class="posts-container">
+    <div class="posts-container" data-slug="{{ post.slug }}" data-type="rich">
         <div class="post-container">
             <div class="post card" data-slug="{{ post.slug }}" data-type="{{ post_type }}">
                 <div class="post-header">
